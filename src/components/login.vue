@@ -12,15 +12,15 @@
             <input type="password" name="password" v-model="password">
             <label class="warning" v-if='wrongPassword'>{{warningPassword}}</label>
         </li>
-        <li>
-            <button class="purebtn" v-if="toggleloginbtn" v-on:click='togglebtn'><small>注册账号</small></button>
-            <button class="idp-button" v-if="toggleloginbtn" v-on:click="login" v-bind:class='pinkbtn'>Sign in</button>
+        <li v-if="toggleloginbtn">
+            <button class="purebtn" v-on:click.stop='togglebtn'><small>注册账号</small></button>
+            <button class="idp-button" v-on:click.stop="login" v-bind:class='pinkbtn'>Sign in</button>
+        </li>
+        <li v-if="!toggleloginbtn">
+            <button class="idp-button" v-on:click.stop="createUser" v-bind:class='pinkbtn'>Create an account</button>
         </li>
         <li>
-            <button class="idp-button" v-if="togglesignbtn" v-on:click="createUser" v-bind:class='pinkbtn'>Create an account</button>
-        </li>
-        <li>
-            <button class="idp-button" v-on:click="google"><span class="googleico">G</span>Sign in with Google</button>
+            <button class="idp-button" v-on:click.stop="google"><span class="googleico">G</span>Sign in with Google</button>
         </li>
     </ul>
 </div>
@@ -36,7 +36,6 @@ export default {
       wrongEmail: false,
       wrongPassword: false,
       toggleloginbtn: true,
-      togglesignbtn: false,
       pinkbtn: 'pinkbtn',
       warningEmail: '* 请输入正确的邮箱地址',
       warningPassword: '* 密码至少是6个字符'
@@ -97,7 +96,6 @@ export default {
     // toggle signin button & signup button
     togglebtn: function () {
       this.toggleloginbtn = false
-      this.togglesignbtn = true
     }
   }
 }

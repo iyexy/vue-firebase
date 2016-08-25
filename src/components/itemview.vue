@@ -1,6 +1,6 @@
 <template>
 <loading v-if="login"></loading>
-<div class="itemlist" v-if="!login">
+<div v-if="!login" class="itemlist">
     <div class="itemview">
         <img v-bind:src="topicitem.imgurl" />
         <div class="itemcontent">
@@ -8,26 +8,27 @@
             <p>{{topicitem.content}}</p>
         </div>
     </div>
-    <div class='conmments' v-for='chatitem in chat'>
-        <h3 class="avarate">{{chatitem.name.slice(0, 1)}}</h3>
-        <span class="itemtitle">&nbsp;{{chatitem.name}}</span>
-        <p>{{chatitem.message}}</p>
-        <span class="posttime">{{chatitem.posttime}}</span>
+    <div class='comments' v-for='commentsitem in comments'>
+        <h3 class="avarate">{{commentsitem.name.slice(0, 1)}}</h3>
+        <span class="itemtitle">&nbsp;{{commentsitem.name}}</span>
+        <p>{{commentsitem.message}}</p>
+        <span class="posttime">{{commentsitem.posttime}}</span>
     </div>
     <div class="userinfo">
         <h3 class="avarate" v-bind:style="{backgroundColor: bgcolor}" v-show="useravarate">{{avarate}}</h3>
         <span class="itemtitle">&nbsp;{{username}}</span>
     </div>
+        <span class="nullWarning" v-if='comment'>* 评论内容不能为空</span>
     <div class="addcomments">
         <textarea class="comments_content" v-model="newcomment"></textarea>
-        <button class="addcomment" v-on:click='addcomment'>添加评论</button>
+        <button class="addcomment" v-on:click='addcomment'>发表评论</button>
     </div>
 </div>
 </template>
 <script>
 import loading from './loading'
 import {router} from '../router'
-import {auth, databaseRef} from '../db/fbase'
+import {onAuthStateChanged, databaseRef} from '../db/fbase'
 export default {
   name: 'list',
   components: {
@@ -39,38 +40,40 @@ export default {
       topicItem: {},
       username: '',
       bgcolor: '#2c3e80',
-      chat: {},
+      comments: {},
       avarate: '',
       useravarate: false,
-      chatId: '',
+      commentsId: '',
       newcomment: '',
-      posttime: ''
+      posttime: '',
+      comment: false
     }
   },
   created: function () {
-    const chatId = this.$route.params.id
-    const ref = databaseRef().child('/chat/' + chatId)
+    const commentsId = this.$route.params.id
+    const ref = databaseRef().child('/comments/' + commentsId)
     databaseRef('/topicItem/').on('value', snapshot => {
       this.topicItem = snapshot.val()
     })
-    const user = auth.currentUser
-    if (user != null) {
-      this.username = user.displayName || user.email.slice(0, user.email.indexOf('@'))
-      this.avarate = this.username.slice(0, 1)
-      this.useravarate = true
-    } else {
-      this.useravarate = false
-    }
+    onAuthStateChanged(user => {
+      if (user) {
+        this.username = user.displayName || user.email.slice(0, user.email.indexOf('@'))
+        this.avarate = this.username.slice(0, 1)
+        this.useravarate = true
+      } else {
+        this.useravarate = false
+      }
+    })
     ref.on('value', snapshot => {
       this.login = false
-      const chat = snapshot.val()
-      this.chat = chat
+      const comments = snapshot.val()
+      this.comments = comments
     })
   },
   methods: {
     addcomment: function () {
-      const chatId = this.$route.params.id
-      const ref = databaseRef().child('/chat/' + chatId)
+      const commentsId = this.$route.params.id
+      const ref = databaseRef().child('/comments/' + commentsId)
       const today = new Date()
       let month = today.getMonth() + 1
       const date = today.getDate()
@@ -88,11 +91,14 @@ export default {
         message: this.newcomment,
         posttime: this.posttime
       }
-      if (this.username !== '') {
+      if (this.username !== '' && this.newcomment !== '') {
         ref.push().set(comment)
         this.newcomment = ''
-      } else {
+        this.comment = false
+      } else if (this.username === '') {
         router.go({ path: '/login' })
+      } else {
+        this.comment = true
       }
     }
   },
@@ -129,10 +135,10 @@ div.itemlist {
   float: right;
   margin: 10px 0;
 }
-.conmments {
+.comments {
   margin-bottom: 15px;
 }
-.conmments p {
+.comments p {
   margin: 0;
 }
 div.itemview img {
@@ -140,7 +146,7 @@ div.itemview img {
     height: auto;
 }
 .userinfo {
-  margin: 0;
+  margin: 80px 0 0 0;
   line-height: 45px;
 }
 .avarate {
@@ -169,6 +175,12 @@ div.itemview img {
   padding: 5px;
   font-size: 1em;
   box-sizing: border-box;
+}
+.nullWarning {
+  position: absolute;
+  right: 15px;
+  margin-top: -25px;
+  color: #2c3e80;
 }
 .addcomment {
   display: block;
