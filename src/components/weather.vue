@@ -67,7 +67,7 @@ hr {
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: #fff solid 0.1em;
+  border-bottom: #e0e3e9 solid 1px;
 }
 .current_observation {
   text-align: center;

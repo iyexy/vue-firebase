@@ -85,9 +85,10 @@ export default {
   max-width: 300px;
 }
 .userinfo {
+  position: relative;
   margin: 10px 0 10px 0;
   line-height: 45px;
-  color: #fff;
+  color: #00a388;
 }
 .userinfo .avarate {
   width: 65px;
@@ -109,11 +110,11 @@ ul.settinglist {
 ul.settinglist li {
     min-width: 280px;
     list-style: none;
-    color: #fff;
+    color: #00a388;
     font-size: 1.1em;
     margin: 15px auto;
     line-height: 60px;
-    border-bottom: 1px solid #42b983;
+    /*border-bottom: 1px solid #42b983;*/
 }
 .text-center {
     text-align: center;
@@ -123,7 +124,7 @@ ul.settinglist li {
     height: 35px;
     font-size: inherit;
     border: none;
-    color: #fff;
+    color: #00a388;
     background-color: transparent;
 }
 .change-btn {
@@ -155,7 +156,7 @@ input.change-btn {
     border-bottom: 12px solid rgb(255,0,60);
   }
   .warning {
-  color: #2c3e80;
+  color: #fff;
   display: inherit;
   font-size: small;
 }

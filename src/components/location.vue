@@ -42,17 +42,20 @@ justify-content: center;
 display: flexbox;
 margin: 0 auto 60px auto;
 padding: 0;
-max-width: 360px;
+border: 15px #fff solid;
 }
 ul.itemlist li {
   list-style: none;
-  margin: 5px;
-  background-color: gold;
+  margin: 0;
+  background-color: #fff;
   text-align: left;
 }
 .itemtitle {
   font-size: 1.1em;
   color: #fff;
+}
+.itemtitle a {
+  color: rgb(255,0,60);
 }
 .itemcontent {
   margin: 0;

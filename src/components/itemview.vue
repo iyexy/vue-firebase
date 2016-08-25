@@ -9,10 +9,12 @@
         </div>
     </div>
     <div class='comments' v-for='commentsitem in comments'>
-        <h3 class="avarate">{{commentsitem.name.slice(0, 1)}}</h3>
+        <span class="avarate">{{commentsitem.name.slice(0, 1)}}</span>
         <span class="itemtitle">&nbsp;{{commentsitem.name}}</span>
+        <div>
         <p>{{commentsitem.message}}</p>
         <span class="posttime">{{commentsitem.posttime}}</span>
+        </div>
     </div>
     <div class="userinfo">
         <h3 class="avarate" v-bind:style="{backgroundColor: bgcolor}" v-show="useravarate">{{avarate}}</h3>
@@ -20,7 +22,7 @@
     </div>
         <span class="nullWarning" v-if='comment'>* 评论内容不能为空</span>
     <div class="addcomments">
-        <textarea class="comments_content" v-model="newcomment"></textarea>
+        <textarea class="comments_content" v-model="newcomment" autofocus></textarea>
         <button class="addcomment" v-on:click='addcomment'>发表评论</button>
     </div>
 </div>
@@ -39,7 +41,7 @@ export default {
       login: true,
       topicItem: {},
       username: '',
-      bgcolor: '#2c3e80',
+      bgcolor: '#00a388',
       comments: {},
       avarate: '',
       useravarate: false,
@@ -111,34 +113,53 @@ export default {
     }
   }
 }
-  </script>
+</script>
 <style scoped>
 div.itemlist {
   list-style: none;
   margin: 0 0 60px 0;
   padding: 0;
-  background-color: gold;
+  background-color: #fff;
   text-align: left;
   overflow-x: hidden;
+  border: 15px solid #fff;
 }
 .itemtitle {
   color: rgb(255,0,60);
 }
+.itemtitle a {
+  color: rgb(255,0,60);
+}
 .itemcontent {
   margin: 0;
-  padding: 2px 0px;
+  padding: 15px 0px;
   overflow:hidden; 
   text-overflow:ellipsis;
 }
 .posttime {
-  color: rgb(255,0,60);
-  float: right;
-  margin: 10px 0;
+  position: absolute;
+  right: 2px;
+  top: -20px;
+  font-size: small;
+  color: #ddd;
+}
+.commentswrap {
+  width: 100%;
+  height: auto;
+  padding: 15px;
+  border: 1px solid #e0e3e9;
 }
 .comments {
   margin-bottom: 15px;
 }
+.comments div {
+  position: relative;
+  padding: 10px;
+  border: 1px #e0e3e9 solid;
+  border-radius: 5px;
+}
 .comments p {
+  font-size: 0.8em;
   margin: 0;
 }
 div.itemview img {
@@ -146,18 +167,20 @@ div.itemview img {
     height: auto;
 }
 .userinfo {
-  margin: 80px 0 0 0;
+  margin: 0;
+  padding: 0;
   line-height: 45px;
 }
 .avarate {
-  width: 35px;
-  height: 35px;
-  margin: 15px 0;
+  width: 30px;
+  height: 30px;
+  margin: 5px 0;
   padding: 0;
   display: inline-block;
   border-radius: 50%;
   color: #fff;
-  line-height: 37px;
+  font-weight: bold;
+  line-height: 30px;
   text-align: center;
   background-color: rgb(255,0,60);
   text-transform: uppercase;
@@ -166,21 +189,20 @@ div.itemview img {
   width: 100%;
 }
 .comments_content {
-  max-width: 600px;
   width: 100%;
   min-height: 100px;
-  background-color: gold;
-  border: 1px solid #fff;
+  background-color: #f7f7f7;
   margin: 0;
-  padding: 5px;
-  font-size: 1em;
-  box-sizing: border-box;
+  padding: 10px;
+  font-size: inherit;
+  border: none;
 }
 .nullWarning {
   position: absolute;
-  right: 15px;
-  margin-top: -25px;
-  color: #2c3e80;
+  right: 32px;
+  font-size: small;
+  margin-top: -20px;
+  color: rgb(255,0,60);
 }
 .addcomment {
   display: block;
@@ -188,7 +210,7 @@ div.itemview img {
   height: 30px;  
   border: none;
   margin: 10px 0;
-  background-color: #2c3e80;
+  background-color: #00a388;
   color: #fff;
   border-radius: 3px;
 }

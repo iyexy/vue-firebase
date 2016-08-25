@@ -26,8 +26,20 @@ html,body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-size: 1em;
   font-family: Source Sans Pro, Helvetica, sans-serif;
-  background-color: gold;
+  background-color: #f7f7f7;
+}
+@media (min-width: 768px) { 
+  #app {
+    max-width: 600px;
+  }
+ }
+
+@media (max-width: 767px) { 
+  #app {
+    max-width: 450px;
+  }
 }
 #app {
   position: relative;
@@ -41,7 +53,6 @@ html,body {
   margin: 0 auto;
   text-align: center;
   -webkit-overflow-scrolling: touch; 
-  max-width: 450px
 }
 a {
   color: #fff;
@@ -61,7 +72,7 @@ a {
   top: 0;
   margin: 0;
   padding: 0;
-  background-color: #2c3e80; 
+  background-color: #00a388; 
   z-index: 999;
 }
 .navbar {
@@ -72,7 +83,7 @@ a {
   padding: 0;
   height: 50px;
   text-align: center;
-  background-color: #2c3e80;
+  background-color: #00a388;
 }
 ul.navbar li {
 list-style: none;

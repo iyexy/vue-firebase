@@ -68,7 +68,12 @@ export default {
             this.wrongEmail = false
             this.wrongPassword = true
             break
+          case 'auth/network-request-failed':
+            this.warningPassword = '* 网络请求失败 请稍后重试'
+            this.wrongPassword = true
+            break
           default:
+            this.wrongPassword = false
         }
       })
     },
@@ -113,7 +118,7 @@ export default {
     width: 100%;
     height: 35px;
     min-width: 280px;
-    background-color: #2c3e80;
+    background-color: #00a388;
     border: none;
     color: #fff;
     border-radius: 5px;
@@ -141,7 +146,7 @@ ul.loginitem li {
   outline: 0 none!important;
 }
 small {
-  color: #2c3e80;
+  color: #00a388;
   margin: 0;
   padding: 0;
   line-height: 10px;
@@ -164,12 +169,13 @@ ul.loginitem label {
     float: left;
     margin: -20px auto;
     padding: 0;
+    color: #00a388;
 }
 ul.loginitem li {
   clear: both;
 }
 .warning {
-  color: rgb(255,0,60);
+  color: rgb(255,0,60)!important;
   font-size: 0.8em;
 }
 .googleico {
