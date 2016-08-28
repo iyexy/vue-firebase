@@ -13,7 +13,7 @@
     <input type="text" name="username" autofocus class="change-btn text-center" placeholder="输入新的用户名" v-model="newName">
     <button class="change-btn" v-on:click='confirm'>确定</button>
     </li>
-    <li>收藏</li>
+    <li><a class="nostyle-btn" href="#/star">收藏</a></li>
     <li><button class="nostyle-btn" v-on:click="signout">退出</button></li>
     </ul>
 </div>
@@ -32,7 +32,8 @@ export default {
       changeNameBox: false,
       warningMessage: '',
       confirmed: false,
-      isMessage: false
+      isMessage: false,
+      uid: ''
     }
   },
   created: function () {
@@ -45,6 +46,8 @@ export default {
         this.username = user.displayName || userEmName
         const avarate = this.username.slice(0, 1)
         this.avarate = avarate
+        const id = user.uid
+        this.uid = id
       }
     })
   },

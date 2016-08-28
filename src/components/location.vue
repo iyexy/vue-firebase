@@ -46,20 +46,36 @@ border: 15px #fff solid;
 }
 ul.itemlist li {
   list-style: none;
+  position: relative;
   margin: 0;
   background-color: #fff;
-  text-align: left;
+  text-align: left;   
 }
 .itemtitle {
-  font-size: 1.1em;
-  color: #fff;
+  position: relative;
+  display: inline-block;
+  height: 30px;
+  padding: 0 0 0 5px;
+  margin: 0;
+  line-height: 30px;
+  background-color: #2e3e50;
 }
-.itemtitle a {
-  color: rgb(255,0,60);
+.itemtitle::after {
+   content: '';
+    position: absolute;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    right: -30px;
+    border-left: solid 15px #2c3e50;
+    border-top: solid 15px transparent; 
+    border-right:  15px solid transparent;
+    border-bottom: 15px solid transparent;
 }
 .itemcontent {
   margin: 0;
-  padding: 2px 0px;
+  padding: 0;
   overflow:hidden; 
   text-overflow:ellipsis;
 }

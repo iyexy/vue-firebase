@@ -1,6 +1,6 @@
 <template>
 <div class="topbar">
-    <span class="logo"><a href="#">Local</a></span>
+    <div class="logo"><a href="#">Local</a></div>
 </div>
 <div id="app">
     <router-view></router-view>
@@ -17,18 +17,18 @@ export default {
 }
 </script>
 <style>
-* {
-  box-sizing: border-box;
-  outline: 0 none!important;
-}
 html,body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 16px;
   font-family: Source Sans Pro, Helvetica, sans-serif;
   background-color: #f7f7f7;
+}
+* {
+  box-sizing: border-box;
+  outline: 0 none!important;
 }
 @media (min-width: 768px) { 
   #app {
@@ -58,13 +58,33 @@ a {
   color: #fff;
   text-decoration: none;
   outline: none;
+  font-family: Arial;
 }
 .logo {
-  font-size: 1.3em;
-  line-height: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  line-height: 50px;      
   position: absolute;
-  left: 15px;
+  width: 100px;
+  font-family: Tahoma,Arial;
+  font-weight: bold;
+  padding: 0 0 0 20px;
+  background-color: #2c3e50;
 }
+.logo::after {
+    content: '';
+    height: 0;
+    display: inline-block;
+    position: absolute;
+    right: -50px;
+    margin: 0;
+    padding: 0;
+    border-left: solid 25px #2c3e50;
+    border-top: solid 25px transparent; 
+    border-right:  25px solid transparent;
+    border-bottom: 25px solid transparent;
+}
+
 .topbar {
   width: 100%;
   height: 50px;
