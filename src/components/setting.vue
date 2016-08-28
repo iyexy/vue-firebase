@@ -111,7 +111,7 @@ ul.settinglist li {
     min-width: 280px;
     list-style: none;
     color: #00a388;
-    font-size: 1.1em;
+    font-size: 1.1rem;
     margin: 15px auto;
     line-height: 60px;
     /*border-bottom: 1px solid #42b983;*/

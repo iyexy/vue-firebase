@@ -54,13 +54,14 @@ export default {
      // signInWithEmailAndPassword
     login: function () {
       signInWithEmailAndPassword(this.email, this.password).catch((error) => {
-        console.log(error.code + '  ' + error.message)
+        // console.log(error.code + '  ' + error.message)
         switch (error.code) {
           case 'auth/invalid-email':
             this.wrongEmail = true
             break
           case 'auth/user-not-found':
             this.warningEmail = '* 此邮箱未注册'
+            this.wrongPassword = false
             this.wrongEmail = true
             break
           case 'auth/wrong-password':
@@ -81,16 +82,27 @@ export default {
     createUser: function () {
       createUserWithEmailAndPassword(this.email, this.password).catch((error) => {
         // console.log(error.code + '  ' + error.message)
-        if (error.code === 'auth/invalid-email') {
-          this.warningEmail = '* 请输入正确的邮箱地址'
-          this.wrongEmail = true
-        } else if (error.code === 'auth/weak-password') {
-          this.warningPassword = '* 密码至少是6个字符'
-          this.wrongEmail = false
-          this.wrongPassword = true
-        } else {
-          this.warningEmail = '* 发生了一些错误 请稍后重试'
-          this.wrongPassword = false
+        switch (error.code) {
+          case 'auth/invalid-email':
+            this.warningEmail = '* 请输入正确的邮箱地址'
+            this.wrongEmail = true
+            break
+          case 'auth/email-already-in-use':
+            this.warningEmail = '* 邮箱已被注册'
+            this.wrongPassword = false
+            this.wrongEmail = true
+            break
+          case 'auth/weak-password':
+            this.warningPassword = '* 密码至少是6个字符'
+            this.wrongEmail = false
+            this.wrongPassword = true
+            break
+          case 'auth/network-request-failed':
+            this.warningPassword = '* 网络请求失败 请稍后重试'
+            this.wrongPassword = true
+            break
+          default:
+            this.wrongPassword = false
         }
       })
     },
@@ -176,7 +188,7 @@ ul.loginitem li {
 }
 .warning {
   color: rgb(255,0,60)!important;
-  font-size: 0.8em;
+  font-size: 0.8rem;
 }
 .googleico {
   width: 25px;

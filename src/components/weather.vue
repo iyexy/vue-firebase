@@ -34,10 +34,10 @@ export default {
     }
   },
   created: function () {
-    this.$http.get(forecast).then((response) => {
+    this.$http.jsonp(forecast).then((response) => {
       this.api = response.json()
     })
-    this.$http.get(simpleforecast).then((response) => {
+    this.$http.jsonp(simpleforecast).then((response) => {
       this.temp = response.json()
       this.loadingdata = false
     })
