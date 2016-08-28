@@ -10,7 +10,7 @@
     </div>
     <div class='comments' v-for='commentsitem in comments'>
         <span class="avarate">{{commentsitem.name.slice(0, 1)}}</span>
-        <span class="itemtitle">&nbsp;{{commentsitem.name}}</span>
+        <span class="username">&nbsp;{{commentsitem.name}}</span>
         <div>
         <p>{{commentsitem.message}}</p>
         <span class="posttime">{{commentsitem.posttime}}</span>
@@ -18,11 +18,11 @@
     </div>
     <div class="userinfo">
         <h3 class="avarate" v-bind:style="{backgroundColor: bgcolor}" v-show="useravarate">{{avarate}}</h3>
-        <span class="itemtitle">&nbsp;{{username}}</span>
+        <span class="username">&nbsp;{{username}}</span>
     </div>
         <span class="nullWarning" v-if='comment'>* 评论内容不能为空</span>
     <div class="addcomments">
-        <textarea class="comments_content" v-model="newcomment" autofocus></textarea>
+        <textarea class="comments_content" v-model="newcomment"></textarea>
         <button class="addcomment" v-on:click='addcomment'>发表评论</button>
     </div>
 </div>
@@ -125,14 +125,33 @@ div.itemlist {
   border: 15px solid #fff;
 }
 .itemtitle {
-  color: rgb(255,0,60);
+  position: relative;
+  display: inline-block;
+  height: 30px;
+  padding: 0 0 0 5px;
+  margin: 0;
+  line-height: 30px;
+  background-color: #2e3e50;
 }
-.itemtitle a {
+.itemtitle::after {
+   content: '';
+    position: absolute;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    right: -30px;
+    border-left: solid 15px #2c3e50;
+    border-top: solid 15px transparent; 
+    border-right:  15px solid transparent;
+    border-bottom: 15px solid transparent;
+}
+.username {
   color: rgb(255,0,60);
 }
 .itemcontent {
   margin: 0;
-  padding: 15px 0px;
+  padding: 0;
   overflow:hidden; 
   text-overflow:ellipsis;
 }
@@ -159,7 +178,7 @@ div.itemlist {
   border-radius: 5px;
 }
 .comments p {
-  font-size: 0.8em;
+  font-size: 0.8rem;
   margin: 0;
 }
 div.itemview img {
