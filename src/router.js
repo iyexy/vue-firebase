@@ -5,6 +5,7 @@ import weather from './components/weather'
 import setting from './components/setting'
 import login from './components/login'
 import itemview from './components/itemview'
+import star from './components/star'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
@@ -26,6 +27,9 @@ router.map({
   '/login': {
     name: 'loginurl',
     component: login
+  },
+  '/star': {
+    component: star
   }
 })
 router.redirect({

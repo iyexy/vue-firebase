@@ -8,6 +8,14 @@
             <p>{{topicitem.content}}</p>
         </div>
     </div>
+    <div class="likebtn">
+    <ul>
+    <li class="share"><button class="btn">分享</button></li>
+    <li><button class="btn" v-bind:style="{color: starcolor}" v-bind:disabled="starbtn" v-on:click="star">
+      {{starbtntext}}
+    </button></li>
+    </ul>
+    </div>
     <div class='comments' v-for='commentsitem in comments'>
         <span class="avarate">{{commentsitem.name.slice(0, 1)}}</span>
         <span class="username">&nbsp;{{commentsitem.name}}</span>
@@ -48,12 +56,15 @@ export default {
       commentsId: '',
       newcomment: '',
       posttime: '',
-      comment: false
+      comment: false,
+      uid: '',
+      startitle: '',
+      starcolor: '',
+      starbtntext: '收藏',
+      starbtn: false
     }
   },
   created: function () {
-    const commentsId = this.$route.params.id
-    const ref = databaseRef().child('/comments/' + commentsId)
     databaseRef('/topicItem/').on('value', snapshot => {
       this.topicItem = snapshot.val()
     })
@@ -62,10 +73,28 @@ export default {
         this.username = user.displayName || user.email.slice(0, user.email.indexOf('@'))
         this.avarate = this.username.slice(0, 1)
         this.useravarate = true
+        this.uid = user.uid
+        const topic = databaseRef('/topicItem/' + this.$route.params.id + '/title/')
+        topic.on('value', snapshot => {
+          this.startitle = snapshot.val()
+          databaseRef('alreadystar/' + this.uid + '/' + this.startitle).on('value', snapshot => {
+            if (snapshot.val() !== null) {
+              this.starbtntext = '已收藏'
+              this.starcolor = 'gold'
+              this.starbtn = true
+            } else {
+              this.starbtntext = '收藏'
+              this.starcolor = ''
+              this.starbtn = false
+            }
+          })
+        })
       } else {
         this.useravarate = false
       }
     })
+    const commentsId = this.$route.params.id
+    const ref = databaseRef().child('/comments/' + commentsId)
     ref.on('value', snapshot => {
       this.login = false
       const comments = snapshot.val()
@@ -73,6 +102,22 @@ export default {
     })
   },
   methods: {
+    star: function () {
+      if (this.uid === '') {
+        router.go({ path: '/login' })
+      } else {
+        const star = databaseRef().child('userstar/' + this.uid)
+        const add = {
+          topicTitle: this.staritemtitle,
+          topicTime: this.staritemtime,
+          topicImg: this.staritemimg,
+          topicUrl: window.location.href
+        }
+        star.push(add)
+        const alreadyStar = databaseRef().child('alreadystar/' + this.uid + '/' + this.topicitem.title)
+        alreadyStar.set(true)
+      }
+    },
     addcomment: function () {
       const commentsId = this.$route.params.id
       const ref = databaseRef().child('/comments/' + commentsId)
@@ -110,12 +155,25 @@ export default {
     },
     topicitem: function () {
       return this.topicItem[this.params]
+    },
+    title: function () {
+      return this.topicitem.title
+    },
+    staritemtitle: function () {
+      return this.topicItem[this.params].title
+    },
+    staritemtime: function () {
+      return this.topicItem[this.params].post_time
+    },
+    staritemimg: function () {
+      return this.topicItem[this.params].imgurl
     }
   }
 }
 </script>
 <style scoped>
 div.itemlist {
+  position: relative;
   list-style: none;
   margin: 0 0 60px 0;
   padding: 0;
@@ -218,7 +276,7 @@ div.itemview img {
 }
 .nullWarning {
   position: absolute;
-  right: 32px;
+  right: 3px;
   font-size: small;
   margin-top: -20px;
   color: rgb(255,0,60);
@@ -232,5 +290,31 @@ div.itemview img {
   background-color: #00a388;
   color: #fff;
   border-radius: 3px;
+}
+.likebtn {
+  position: relative;
+  right: 0px;
+  width: auto;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: 35px;
+}
+.likebtn ul li {
+  float: right;
+  width: 65px;
+  text-align: center;
+  margin: 0 0 0 5px;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  display: inline-block;
+}
+.btn {
+  width: inherit;
+  height: 30px;
+  display: inline-block;
+  color: #00a388;
+  border: none;
+  font-size: small;
+  background-color: transparent;
 }
 </style>

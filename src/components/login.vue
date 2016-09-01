@@ -12,11 +12,11 @@
             <input type="password" name="password" v-model="password">
             <label class="warning" v-if='wrongPassword'>{{warningPassword}}</label>
         </li>
-        <li v-if="toggleloginbtn">
+        <li v-show="toggleloginbtn">
             <button class="purebtn" v-on:click.stop='togglebtn'><small>注册账号</small></button>
             <button class="idp-button" v-on:click.stop="login" v-bind:class='pinkbtn'>Sign in</button>
         </li>
-        <li v-if="!toggleloginbtn">
+        <li v-show="!toggleloginbtn">
             <button class="idp-button" v-on:click.stop="createUser" v-bind:class='pinkbtn'>Create an account</button>
         </li>
         <li>
