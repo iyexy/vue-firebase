@@ -1,6 +1,6 @@
 <template>
 <loading v-if="login"></loading>
-<div v-if="!login" class="itemlist">
+<div v-if="!login" class="itemlist" transition="fade">
     <div class="itemview">
         <img v-bind:src="topicitem.imgurl" />
         <div class="itemcontent">

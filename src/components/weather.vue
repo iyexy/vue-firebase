@@ -1,6 +1,6 @@
 <template>
 <loading v-if="loadingdata"></loading>
-<div id="weatherpage" v-if="!loadingdata">
+<div id="weatherpage" v-if="!loadingdata" transition="fade">
     <div class='current_observation'>
         <h4>{{currenttemplate.observation_location.city}}</h4>
         <h2>{{currenttemplate.temp_c}}℃</h2>

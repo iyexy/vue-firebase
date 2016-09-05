@@ -1,6 +1,6 @@
 <template>
 <loading v-if="loadingdata"></loading>
-<ul v-if="!loadingdata" class="itemlist">
+<ul v-if="!loadingdata" class="itemlist" transition="fade">
     <li v-for="item in topic">
         <img v-bind:src="item.imgurl">
         <div class="itemcontent">

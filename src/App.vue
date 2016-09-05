@@ -111,4 +111,10 @@ display: inline-block;
 width: 30%;
 line-height: 12px;
 }
+.fade-transition {
+  transition: opacity .3s ease-in;
+}
+.fade-enter, .fade-leave {
+  opacity: 0;
+}
 </style>

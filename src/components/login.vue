@@ -1,10 +1,10 @@
 <template>
-<div id='login'>
+<div id='login' transition="fade">
     <h4>JOIN US ! AND HAVE FUN</h4>
     <ul class="loginitem">
         <li>
             <label for='login-email'>Email Adress</label>
-            <input type="text" name="email" v-model="email" autofocus>
+            <input type="text" name="email" v-model="email">
             <label class="warning" v-if='wrongEmail'>{{warningEmail}}</label>
         </li>
         <li>
