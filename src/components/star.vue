@@ -1,16 +1,17 @@
 <template>
-<h2>收藏夹</h2>
+<h3>>&nbsp;收藏夹&nbsp;<</h3>
 <h4 v-if="nothing">暂时没有收藏任何东西!!!</h4>
     <ul v-if="!nothing" class='staritem'>
       <li v-for='item in stars'>
-        <a v-bind:href="item.topicUrl">
+        <a class="title" v-bind:href="item.topicUrl">
         <img v-bind:src="item.topicImg" />
-        <h3 class="title">{{item.topicTitle}}</h3></a>
+        <p>{{item.topicTitle}}</p>
         <span>&nbsp;{{item.topicTime}}</span>
-        </li>
+        </a>
+       <button class="cancel" v-on:click="cancelstar">取消收藏</button>
+      </li>
     </ul>
-</template>
-<script>
+</template><script>
 import loading from './loading'
 import {router} from '../router'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
@@ -43,6 +44,10 @@ export default {
         router.go({ path: '/login' })
       }
     })
+  },
+  methods: {
+    cancelstar: function () {
+    }
   }
 }
 </script>
@@ -51,27 +56,44 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  padding-bottom: 60px;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0 0 60px 0;
 }
 .staritem li {
   list-style: none;
   text-align: left;
+  position: relative;
   width: auto;
-  height: 75px;
-  margin: 5px;
+  height: 80px;
+  border-bottom: solid 1px #ddd;
 }
-.staritem .title {
+.title {
+  display: block;
+  height: 100%;
+}
+.title p {
   color: rgb(255,0,60);
+}
+.title span {
+  color: #ddd;
 }
 .staritem img {
   float: left;
-  width: 75px;
-  height: 75px;
-  margin: 0 15px 0 0;
+  width: 95px;
+  height: 70px;
+  margin: 0 10px 0 0;
   background-color: #f7f7f7;
 }
 h4 {
   color: #ddd;
+}
+.cancel {
+  position: absolute;
+  right: 0;
+  margin-top: -90px;
+  line-height: 90px;
+  border: none;
+  color: #00a388;
+  background-color: transparent;
 }
 </style>

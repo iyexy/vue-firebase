@@ -6,17 +6,30 @@ import setting from './components/setting'
 import login from './components/login'
 import itemview from './components/itemview'
 import star from './components/star'
+import index from './components/index'
+import unglobal from './components/global'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
 const router = new VueRouter()
 router.map({
-  '/location': {
-    component: location
-  },
-  '/location/:id': {
-    name: 'itemview',
-    component: itemview
+  '/index': {
+    component: index,
+    subRoutes: {
+      '/': {
+        component: location
+      },
+      '/location': {
+        component: location
+      },
+      '/location/:id': {
+        name: 'itemview',
+        component: itemview
+      },
+      '/global': {
+        component: unglobal
+      }
+    }
   },
   '/weather': {
     component: weather
@@ -33,7 +46,7 @@ router.map({
   }
 })
 router.redirect({
-  '/': '/location'
+  '/': '/index'
 })
 export {router}
 

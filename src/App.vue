@@ -6,9 +6,10 @@
     <router-view></router-view>
 </div>
 <ul class="navbar">
-    <li><a :href="'#/location/'"><h3>location</h3></a></li>
-    <li><a :href="'#/weather/'"><h3>weather</h3></a></li>
-    <li><a :href="'#/setting/'"><h3>setting</h3></a></li>
+    <li><a :href="'#/index/'"><img src="../src/assets/location.png"><small>location</small></a></li>
+    <li><a :href="'#/weather/'"><img src="../src/assets/sky.png"><small>weather</small></a></li>
+    <li><a :href="'#/star/'"><img src="../src/assets/star.png"><small>favorite</small></a></li>
+    <li><a :href="'#/setting/'"><img src="../src/assets/settings.png"><small>setting</small></a></li>
 </ul>
 </template>
 <script>
@@ -107,9 +108,19 @@ a {
 }
 ul.navbar li {
 list-style: none;
+position: relative;
 display: inline-block;
-width: 30%;
-line-height: 12px;
+width: 23%;
+padding: 5px 0;
+text-align: center;
+line-height: 70px;
+}
+ul.navbar li img {
+  width: 24px;
+  height: 24px;
+  left: 50%;
+  margin-left: -12px;
+  position: absolute;
 }
 .fade-transition {
   transition: opacity .3s ease-in;

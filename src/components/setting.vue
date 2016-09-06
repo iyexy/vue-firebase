@@ -13,7 +13,6 @@
     <input type="text" name="username" autofocus class="change-btn text-center" placeholder="输入新的用户名" v-model="newName">
     <button class="change-btn" v-on:click='confirm'>确定</button>
     </li>
-    <li><a class="nostyle-btn" href="#/star">收藏</a></li>
     <li><button class="nostyle-btn" v-on:click="signout">退出</button></li>
     </ul>
 </div>
