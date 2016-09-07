@@ -7,7 +7,6 @@ import login from './components/login'
 import itemview from './components/itemview'
 import star from './components/star'
 import index from './components/index'
-import unglobal from './components/global'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
@@ -19,15 +18,9 @@ router.map({
       '/': {
         component: location
       },
-      '/location': {
-        component: location
-      },
       '/location/:id': {
         name: 'itemview',
         component: itemview
-      },
-      '/global': {
-        component: unglobal
       }
     }
   },
