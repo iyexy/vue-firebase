@@ -80,7 +80,7 @@ export default {
       const ref = databaseRef().child('/chat/')
       const today = new Date()
       let month = today.getMonth() + 1
-      let date = today.getDate()
+      const date = today.getDate()
       const hour = today.getHours()
       let minute = today.getMinutes()
       const checkTime = (i) => {
@@ -89,7 +89,7 @@ export default {
         }
         return i
       }
-      date = checkTime(date)
+      month = checkTime(month)
       minute = checkTime(minute)
       this.posttime = month + '/' + date + ' ' + hour + ':' + minute
       const message = {

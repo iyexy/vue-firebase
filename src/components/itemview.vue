@@ -135,9 +135,11 @@ export default {
       const commentsId = this.$route.params.id
       const ref = databaseRef().child('/comments/' + commentsId)
       const today = new Date()
+      const year = today.getFullYear()
       let month = today.getMonth() + 1
       const date = today.getDate()
-      const year = today.getFullYear()
+      const hour = today.getHours()
+      let minute = today.getMinutes()
       const checkTime = (i) => {
         if (i < 10) {
           i = '0' + i
@@ -145,12 +147,14 @@ export default {
         return i
       }
       month = checkTime(month)
-      this.posttime = year + '/' + month + '/' + date
+      minute = checkTime(minute)
+      this.posttime = year + '/' + month + '/' + date + ' ' + hour + ':' + minute
       const comment = {
         name: this.username,
         message: this.newcomment,
         posttime: this.posttime,
-        avatarurl: this.avatarurl
+        avatarurl: this.avatarurl,
+        uid: this.uid
       }
       if (this.username !== '' && this.newcomment !== '') {
         ref.push().set(comment)
