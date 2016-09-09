@@ -1,38 +1,63 @@
 <template>
-<div id="avarate" v-if='login'>
+<div id="avatar" v-if='login'>
     <div class="userinfo">
-        <h1 class="avarate">{{avarate}}</h1>
-        <h3>{{username}}</h3>
+        <img v-bind:src="avatar">
+        <h4>{{username}}</h4>
     </div>
     <ul class="settinglist">
-    <li></li>
-    <li  v-if="!changeNameBox"><button class="nostyle-btn" v-on:click="changeUserName">修改用户名</button>
-    </li>
-    <li class="changeNameBox" v-if='changeNameBox'>
-     <small class="warning" v-if='isMessage'>{{warningMessage}}</small>
-    <input type="text" name="username" autofocus class="change-btn text-center" placeholder="输入新的用户名" v-model="newName">
-    <button class="change-btn" v-on:click='confirm'>确定</button>
-    </li>
-    <li><button class="nostyle-btn" v-on:click="signout">退出</button></li>
+        <li>
+            <button class="nostyle-btn" v-on:click="changeUserName">修改用户名</button>
+        </li>
+        <li class="changeNameBox" v-if='changeNameBox' transition="in">
+            <button class="close" v-on:click="closeNameBox"> + </button>
+            <small class="warning" v-if='isMessage'>{{warningMessage}}</small>
+            <input type="text" name="username" autofocus class="change-btn text-center" placeholder="输入新的用户名" v-model="newName">
+            <button class="change-btn" v-on:click='confirm'>确定</button>
+        </li>
+        <li>
+            <button class="nostyle-btn" v-on:click="changeAvatar">更换头像</button>
+        </li>
+        <li class="changeNameBox" v-if="changeavatarBox" transition="in">
+            <button class="close" v-on:click="closeAvatarBox"> + </button>
+            <span id="avatarwrap">
+    <span class="avatar-option" v-for='url in avatarurl'>
+    <img v-bind:src="url.url">
+    <input type="radio" :value="url.url" v-model="picked">
+    </span>
+            </span>
+            <button class="change-btn" v-on:click='changeUseravatar'>确定</button>
+        </li>
+        <li>
+            <button class="nostyle-btn" v-on:click="signout">退出</button>
+        </li>
     </ul>
 </div>
 </template>
 <script>
-import {auth, onAuthStateChanged, authSignOut} from '../db/fbase'
+import {auth, onAuthStateChanged, databaseRef, authSignOut} from '../db/fbase'
 import {router} from '../router'
 export default {
   name: 'setting',
   data () {
     return {
       username: '',
-      avarate: 'X',
+      avatar: '',
       login: false,
       newName: '',
+      changeavatarBox: false,
       changeNameBox: false,
       warningMessage: '',
       confirmed: false,
       isMessage: false,
-      uid: ''
+      uid: '',
+      picked: '',
+      defaultavatar: 'http://od62mnpbe.bkt.clouddn.com/default.png',
+      avatarurl: [
+        {url: 'http://od62mnpbe.bkt.clouddn.com/girl.png'},
+        {url: 'http://od62mnpbe.bkt.clouddn.com/boy.png'},
+        {url: 'http://od62mnpbe.bkt.clouddn.com/girl-2.png'},
+        {url: 'http://od62mnpbe.bkt.clouddn.com/boy-1.png'}
+      ]
     }
   },
   created: function () {
@@ -40,14 +65,18 @@ export default {
       if (!user) {
         router.go({ path: '/login' })
       } else {
-        this.login = true
         const userEmName = user.email.slice(0, user.email.indexOf('@'))
         this.username = user.displayName || userEmName
-        const avarate = this.username.slice(0, 1)
-        this.avarate = avarate
         const id = user.uid
         this.uid = id
       }
+      databaseRef('user/' + this.uid + '/avatarurl/').on('value', snapshot => {
+        this.avatar = snapshot.val()
+        if (this.avatar === null) {
+          this.avatar = this.defaultavatar
+        }
+        this.login = true
+      })
     })
   },
   methods: {
@@ -61,9 +90,7 @@ export default {
           displayName: this.newName
         }).then(() => {
           this.username = user.displayName
-          this.avarate = this.username.slice(0, 1)
           this.newName = ''
-          this.changeNameBox = false
           this.isMessage = false
         }, (error) => {
           console.log(error.code + error.massage)
@@ -77,33 +104,39 @@ export default {
     },
     changeUserName: function () {
       this.changeNameBox = true
+    },
+    changeUseravatar: function () {
+      const ref = databaseRef('user/' + this.uid)
+      if (this.picked !== '') {
+        const avatarurl = {
+          avatarurl: this.picked
+        }
+        ref.set(avatarurl)
+      }
+    },
+    closeAvatarBox: function () {
+      this.changeavatarBox = false
+    },
+    closeNameBox: function () {
+      this.newName = ''
+      this.isMessage = false
+      this.changeNameBox = false
+    },
+    changeAvatar: function () {
+      this.changeavatarBox = true
     }
   }
 }
 </script>
 <style scoped>
-#avarate {
+#avatar {
   margin: 0 auto 60px auto;
   max-width: 300px;
 }
 .userinfo {
   position: relative;
-  margin: 10px 0 10px 0;
-  line-height: 45px;
-  color: #00a388;
-}
-.userinfo .avarate {
-  width: 65px;
-  height: 65px;
-  margin: 15px 0;
-  padding: 0 1px 0 0;
-  display: inline-block;
-  border-radius: 50%;
-  color: #fff;
-  line-height: 67px;
-  text-align: center;
-  background-color: rgb(255,0,60);
-  text-transform: uppercase;
+  margin: 10px 0;
+  color: rgb(255,0,60);
 }
 ul.settinglist {
     padding: 0;
@@ -113,21 +146,31 @@ ul.settinglist li {
     min-width: 280px;
     list-style: none;
     color: #00a388;
-    font-size: 1.1rem;
-    margin: 15px auto;
-    line-height: 60px;
-    /*border-bottom: 1px solid #42b983;*/
+    margin: 5px auto;
+    line-height: 50px;
+    position: relative;
 }
 .text-center {
     text-align: center;
 }
 .nostyle-btn {
-    width: 100%;
+    width: auto;
     height: 35px;
     font-size: inherit;
     border: none;
     color: #00a388;
     background-color: transparent;
+}
+.close {
+  font-size: 2.5rem;
+  color: #fff;
+  border: none;
+  position: absolute;
+  right: 5px;
+  padding: 0;
+  margin-top: -10px;
+  background-color: transparent;
+  transform: rotate(45deg);
 }
 .change-btn {
     width: 80%;
@@ -157,9 +200,36 @@ input.change-btn {
     border-right:  15px solid transparent;
     border-bottom: 12px solid rgb(255,0,60);
   }
-  .warning {
+.warning {
   color: #fff;
   display: inherit;
   font-size: small;
+}
+#avatarwrap {
+  display: inline-block;
+  padding-top: 38px;
+}
+.avatar-option {
+  position: relative;
+  margin: 50px 10px;
+}
+.avatar-option img {
+  width: 42px;
+  height: 42px;
+}
+.avatar-option input {
+  position: absolute;
+  left: 10px;
+  margin-top: 55px;
+  border: none;
+  background-color: #d7d7d7;
+}
+.in-transition {
+  height: 100%;
+  transition: all .3s ease;
+}
+.in-enter, .in-leave {
+  height: 0;
+  opacity: 0;
 }
 </style>

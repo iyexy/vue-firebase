@@ -7,6 +7,7 @@ import login from './components/login'
 import itemview from './components/itemview'
 import star from './components/star'
 import index from './components/index'
+import chat from './components/chat'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
@@ -21,6 +22,9 @@ router.map({
       '/location/:id': {
         name: 'itemview',
         component: itemview
+      },
+      '/chat': {
+        component: chat
       }
     }
   },

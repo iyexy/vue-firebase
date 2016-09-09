@@ -9,26 +9,31 @@
         </div>
     </div>
     <div class="likebtn">
-    <ul>
-    <li class="share"><button class="btn">分享</button></li>
-    <li><button class="btn" v-bind:style="{color: starcolor}" v-bind:disabled="starbtn" v-on:click="star">
-      {{starbtntext}}
-    </button></li>
-    </ul>
+        <ul>
+            <li class="share">
+                <button class="btn">分享</button>
+            </li>
+            <li>
+                <button class="btn" v-bind:style="{color: starcolor}" v-bind:disabled="starbtn" v-on:click="star">
+                    {{starbtntext}}
+                </button>
+            </li>
+        </ul>
     </div>
     <div class='comments' v-for='commentsitem in comments'>
-        <span class="avarate">{{commentsitem.name.slice(0, 1)}}</span>
-        <span class="username">&nbsp;{{commentsitem.name}}</span>
+        <span class="avatar"><img v-bind:src="commentsitem.avatarurl" /></span>
+        <small class="username">&nbsp;{{commentsitem.name}}</small>
         <div>
-        <p>{{commentsitem.message}}</p>
-        <span class="posttime">{{commentsitem.posttime}}</span>
+            <p>{{commentsitem.message}}</p>
+            <span class="posttime">{{commentsitem.posttime}}</span>
         </div>
     </div>
     <div class="userinfo">
-        <h3 class="avarate" v-bind:style="{backgroundColor: bgcolor}" v-show="useravarate">{{avarate}}</h3>
-        <span class="username">&nbsp;{{username}}</span>
+        <span v-show="useravatar">
+        <img v-bind:src="avatarurl"></span>
+        <small class="username">&nbsp;{{username}}</small>
     </div>
-        <span class="nullWarning" v-if='comment'>* 评论内容不能为空</span>
+    <span class="nullWarning" v-if='comment'>* 评论内容不能为空</span>
     <div class="addcomments">
         <textarea class="comments_content" v-model="newcomment"></textarea>
         <button class="addcomment" v-on:click='addcomment'>发表评论</button>
@@ -49,10 +54,8 @@ export default {
       login: true,
       topicItem: {},
       username: '',
-      bgcolor: '#00a388',
       comments: {},
-      avarate: '',
-      useravarate: false,
+      useravatar: false,
       commentsId: '',
       newcomment: '',
       posttime: '',
@@ -61,7 +64,9 @@ export default {
       startitle: '',
       starcolor: '',
       starbtntext: '收藏',
-      starbtn: false
+      starbtn: false,
+      avatarurl: {},
+      defaultavatar: 'http://od62mnpbe.bkt.clouddn.com/default.png'
     }
   },
   created: function () {
@@ -70,10 +75,18 @@ export default {
     })
     onAuthStateChanged(user => {
       if (user) {
+        // user name && user id
         this.username = user.displayName || user.email.slice(0, user.email.indexOf('@'))
-        this.avarate = this.username.slice(0, 1)
-        this.useravarate = true
         this.uid = user.uid
+        // user avatar
+        databaseRef('user/' + this.uid + '/avatarurl/').on('value', snapshot => {
+          this.avatarurl = snapshot.val()
+          if (this.avatarurl === null) {
+            this.avatarurl = this.defaultavatar
+          }
+          this.useravatar = true
+        })
+        // topic star
         const topic = databaseRef('/topicItem/' + this.$route.params.id + '/title/')
         topic.on('value', snapshot => {
           this.startitle = snapshot.val()
@@ -90,7 +103,7 @@ export default {
           })
         })
       } else {
-        this.useravarate = false
+        this.useravatar = false
       }
     })
     const commentsId = this.$route.params.id
@@ -136,7 +149,8 @@ export default {
       const comment = {
         name: this.username,
         message: this.newcomment,
-        posttime: this.posttime
+        posttime: this.posttime,
+        avatarurl: this.avatarurl
       }
       if (this.username !== '' && this.newcomment !== '') {
         ref.push().set(comment)
@@ -227,7 +241,7 @@ div.itemlist {
   border: 1px solid #e0e3e9;
 }
 .comments {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 .comments div {
   position: relative;
@@ -246,21 +260,15 @@ div.itemview img {
 .userinfo {
   margin: 0;
   padding: 0;
-  line-height: 45px;
+  position: relative;
 }
-.avarate {
-  width: 30px;
-  height: 30px;
-  margin: 5px 0;
-  padding: 0;
-  display: inline-block;
-  border-radius: 50%;
-  color: #fff;
-  font-weight: bold;
-  line-height: 30px;
-  text-align: center;
-  background-color: rgb(255,0,60);
-  text-transform: uppercase;
+.userinfo img {
+  width: 32px;
+  height: 32px;
+}
+.avatar img {
+  width: 32px;
+  height: 32px;
 }
 .addcomments {
   width: 100%;

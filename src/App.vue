@@ -11,10 +11,15 @@
     <li><a :href="'#/star/'"><img src="../src/assets/star.png"><small>favorite</small></a></li>
     <li><a :href="'#/setting/'"><img src="../src/assets/settings.png"><small>setting</small></a></li>
 </ul>
+<chatbtn></chatbtn>
 </template>
 <script>
+import chatbtn from './components/chatbtn'
 export default {
-  replace: false
+  replace: false,
+  components: {
+    chatbtn
+  }
 }
 </script>
 <style>
