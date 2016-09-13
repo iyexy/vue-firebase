@@ -3,15 +3,14 @@
 <h4 v-if="nothing">暂时没有收藏任何东西!!!</h4>
     <ul v-if="!nothing" class='staritem'>
       <li v-for='item in stars'>
-        <a class="title" v-bind:href="item.topicUrl">
-        <img v-bind:src="item.topicImg" />
-        <p>{{item.topicTitle}}</p>
-        <span>&nbsp;{{item.topicTime}}</span>
-        </a>
-       <button class="cancel" v-on:click="cancelstar">取消收藏</button>
+        <a class="title" v-bind:href="item.topicUrl">{{item.topicTitle}}</a>
+        <small>{{item.auth}}</small>
+        <small>{{item.topicTime}}</small>
+        <button class="cancel" v-on:click="cancelstar(item.postKey)">取消收藏</button>
       </li>
     </ul>
-</template><script>
+</template>
+<script>
 import loading from './loading'
 import {router} from '../router'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
@@ -25,7 +24,9 @@ export default {
       stars: {},
       login: true,
       uid: '',
-      nothing: false
+      postKey: {},
+      nothing: false,
+      cancelTarget: ''
     }
   },
   created: function () {
@@ -46,36 +47,47 @@ export default {
     })
   },
   methods: {
-    cancelstar: function () {
+    cancelstar: function (postKey) {
+      const ref = databaseRef('user/alreadystar/' + this.uid + '/' + postKey)
+      ref.on('value', snapshot => {
+        const cancelTarget = snapshot.val()
+        databaseRef('userstar/' + this.uid + '/' + cancelTarget).set(null)
+      })
+      databaseRef('user/alreadystar/' + this.uid + '/' + postKey)
+      ref.on('value', snapshot => {
+        databaseRef('user/alreadystar/' + this.uid + '/' + postKey).set(null)
+      })
     }
   }
 }
 </script>
 <style scoped>
+h3 {
+  color: rgb(255,0,60);
+}
 .staritem {
   width: 100%;
   height: 100%;
   overflow: auto;
   margin: 0;
-  padding: 0 0 60px 0;
+  padding: 5px;
 }
 .staritem li {
   list-style: none;
   text-align: left;
   position: relative;
   width: auto;
-  height: 80px;
+  padding: 10px 0;
   border-bottom: solid 1px #ddd;
+}
+.staritem small {
+  color: #d7d7d7;
 }
 .title {
   display: block;
   height: 100%;
-}
-.title p {
-  color: rgb(255,0,60);
-}
-.title span {
-  color: #ddd;
+  margin: 5px 0 ;
+  color: #000;
 }
 .staritem img {
   float: left;
@@ -90,8 +102,6 @@ h4 {
 .cancel {
   position: absolute;
   right: 0;
-  margin-top: -90px;
-  line-height: 90px;
   border: none;
   color: #00a388;
   background-color: transparent;

@@ -70,7 +70,7 @@ export default {
         const id = user.uid
         this.uid = id
       }
-      databaseRef('user/' + this.uid + '/avatarurl/').on('value', snapshot => {
+      databaseRef('user/avatar/' + this.uid + '/avatarurl/').on('value', snapshot => {
         this.avatar = snapshot.val()
         if (this.avatar === null) {
           this.avatar = this.defaultavatar
@@ -106,7 +106,7 @@ export default {
       this.changeNameBox = true
     },
     changeUseravatar: function () {
-      const ref = databaseRef('user/' + this.uid)
+      const ref = databaseRef('user/avatar/' + this.uid)
       if (this.picked !== '') {
         const avatarurl = {
           avatarurl: this.picked

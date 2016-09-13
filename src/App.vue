@@ -6,19 +6,21 @@
     <router-view></router-view>
 </div>
 <ul class="navbar">
-    <li><a :href="'#/index/'"><img src="../src/assets/location.png"><small>location</small></a></li>
-    <li><a :href="'#/weather/'"><img src="../src/assets/sky.png"><small>weather</small></a></li>
+    <li><a :href="'#/latest/'"><img src="../src/assets/location.png"><small>latest</small></a></li>
     <li><a :href="'#/star/'"><img src="../src/assets/star.png"><small>favorite</small></a></li>
     <li><a :href="'#/setting/'"><img src="../src/assets/settings.png"><small>setting</small></a></li>
 </ul>
 <chatbtn></chatbtn>
+<addbtn></addbtn>
 </template>
 <script>
+import addbtn from './components/addbtn'
 import chatbtn from './components/chatbtn'
 export default {
   replace: false,
   components: {
-    chatbtn
+    chatbtn,
+    addbtn
   }
 }
 </script>
@@ -29,7 +31,7 @@ html,body {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  font-family: Source Sans Pro, Helvetica, sans-serif;
+  font-family: Source Sans Pro, Helvetica, Arial;
   background-color: #f7f7f7;
 }
 * {
@@ -41,7 +43,6 @@ html,body {
     max-width: 600px;
   }
  }
-
 @media (max-width: 767px) { 
   #app {
     max-width: 450px;
@@ -64,7 +65,6 @@ a {
   color: #fff;
   text-decoration: none;
   outline: none;
-  font-family: Arial;
 }
 .logo {
   height: 50px;
@@ -115,7 +115,7 @@ ul.navbar li {
 list-style: none;
 position: relative;
 display: inline-block;
-width: 23%;
+width: 30%;
 padding: 5px 0;
 text-align: center;
 line-height: 70px;

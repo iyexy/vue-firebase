@@ -1,35 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import location from './components/location'
-import weather from './components/weather'
 import setting from './components/setting'
 import login from './components/login'
-import itemview from './components/itemview'
 import star from './components/star'
-import index from './components/index'
 import chat from './components/chat'
+import post from './components/post'
+import postitem from './components/postitem'
+import addpost from './components/addpost'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
 const router = new VueRouter()
 router.map({
-  '/index': {
-    component: index,
-    subRoutes: {
-      '/': {
-        component: location
-      },
-      '/location/:id': {
-        name: 'itemview',
-        component: itemview
-      },
-      '/chat': {
-        component: chat
-      }
-    }
+  '/addpost': {
+    component: addpost
   },
-  '/weather': {
-    component: weather
+  '/chat': {
+    component: chat
+  },
+  '/latest': {
+    component: post
+  },
+  '/latest/:item': {
+    name: 'postitem',
+    component: postitem
   },
   '/setting': {
     component: setting
@@ -43,7 +37,7 @@ router.map({
   }
 })
 router.redirect({
-  '/': '/index'
+  '/': '/latest'
 })
 export {router}
 

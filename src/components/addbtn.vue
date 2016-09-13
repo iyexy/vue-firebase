@@ -1,20 +1,17 @@
 <template>
-<a class="chat" href="#/chat"><img src="../assets/livechat.png"></a>
+<a class="add" href="#/addpost"><img src="../assets/add.png"></a>
 </template>
 <script>
 export default {
-  name: 'chatbtn'
+  name: 'addbtn'
 }
 </script>
 <style scoped>
-.chat {
+.add {
     position: fixed;
-    bottom: 65px;
+    bottom: 105px;
     right: 15px;
     border-radius: 50%;
     border: none;
-}
-.chat img {
-  transform: rotateY(180deg);
 }
 </style>

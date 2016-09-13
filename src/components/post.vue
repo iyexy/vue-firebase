@@ -1,25 +1,16 @@
 <template>
 <loading v-if="login"></loading>
 <section id="chat" v-if="!login">
-    <h2>Live Chat :p</h2>
+    <h2>最新内容 :p</h2>
     <div class="chatwrap">
-        <ul class='chat'>
-        <li v-for='chat in chat'>
-             <img v-bind:src="chat.avatarurl">
-             <small class="username">{{chat.name}}</small>
-             <small class="posttime">{{chat.posttime}}</small>
-             <p>{{chat.message}}</p>
-             </li>
-        </ul>
-        <div class="userinfo">
-            <span v-show="useravatar">
-        <img v-bind:src="avatarurl"></span>
-            <small class="username">{{username}}</small>
-        </div>
-        <span class="nullWarning" v-if='message'>* 内容不能为空</span>
-        <div class="addmessages">
-            <textarea class="messages_content" v-model="newmessage" placeholder="添加消息..."></textarea>
-            <button class="addmessage" v-on:click='sendmessage'>{{send}}</button>
+        <div class='chat' v-for="chat in newposts | orderBy 'posttime' -1">
+            <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
+            <small class="username">&nbsp;{{chat.name}}</small>
+               <div class="contentwrap">
+          <a class="topictitle" v-link="{ name: 'postitem', params: { item: chat.postid}}">{{chat.title}}</a>
+                <small class="posttime">{{chat.posttime}}</small>
+                <span class="count" v-show="chat.response === 0 ? false : true">{{chat.response}}</span>
+            </div>
         </div>
     </div>
 </section>
@@ -39,10 +30,12 @@ export default {
       uid: '',
       useravatar: false,
       username: '',
-      newmessage: '',
+      title: '',
+      newpost: '',
       message: false,
-      send: '去登录',
-      chat: '',
+      post: '去登录',
+      newposts: '',
+      count: {},
       avatarurl: {},
       defaultavatar: 'http://od62mnpbe.bkt.clouddn.com/default.png'
     }
@@ -61,23 +54,23 @@ export default {
           }
           this.useravatar = true
         })
-        this.send = '发送'
+        this.post = '发布'
       } else {
         this.useravatar = false
       }
     })
     // chat content
-    const ref = databaseRef().child('/chat/')
+    const ref = databaseRef().child('/newpost/topic/')
     ref.on('value', snapshot => {
-      const chat = snapshot.val()
-      this.chat = chat
+      const newposts = snapshot.val()
+      this.newposts = newposts
       this.login = false
     })
   },
   methods: {
-    // sendmessage
-    sendmessage: function () {
-      const ref = databaseRef().child('/chat/')
+    // post
+    postcontent: function () {
+      const ref = databaseRef().child('/newpost/topic/')
       const today = new Date()
       let month = today.getMonth() + 1
       const date = today.getDate()
@@ -91,17 +84,24 @@ export default {
       }
       month = checkTime(month)
       minute = checkTime(minute)
-      const posttime = month + '/' + date + ' ' + hour + ':' + minute
+      this.posttime = month + '/' + date + ' ' + hour + ':' + minute
+      const newPostKey = ref.push().key
       const message = {
         name: this.username,
-        message: this.newmessage,
-        posttime: posttime,
+        title: this.title,
+        postcontent: this.newpost,
+        posttime: this.posttime,
         avatarurl: this.avatarurl,
-        uid: this.uid
+        uid: this.uid,
+        response: 0,
+        postid: newPostKey
       }
-      if (this.username !== '' && this.newmessage !== '') {
-        ref.push().set(message)
-        this.newmessage = ''
+      if (this.username !== '' && this.newpost !== '') {
+        databaseRef().child('/newpost/topic/' + newPostKey).set(message)
+        databaseRef().child('/user/post/' + this.uid + '/' + newPostKey).set(true)
+
+        this.title = ''
+        this.newpost = ''
         this.message = false
       } else if (this.username === '') {
         router.go({ path: '/login' })
@@ -114,7 +114,7 @@ export default {
 </script>
 <style scoped>
 #chat {
-  margin-bottom: 60px;
+  margin-bottom: 120px;
 }
 div.chatwrap {
   position: relative;
@@ -124,39 +124,44 @@ div.chatwrap {
   background-color: #fff;
   text-align: left;
   overflow-x: hidden;
-  border: 15px solid #fff;
+  border: 10px solid #fff;
 }
 .username {
-  color: rgb(255,0,60);
+  color: #d7d7d7;
+}
+.chat > .username {
+  margin-left: 30px;
+  display: inline-block;
+  margin-top: 5px;
 }
 .posttime {
-  color: #ddd;
-  display: block;
-  text-align: center;
   position: absolute;
-  left: 40%;
-  top: 5px;
+  right: 2px;
+  top: -18px;
+  color: #ddd;
 }
-ul.chat {
-  margin: 0 0 50px;
-  padding: 0;
+.chat {
+  margin-bottom: 15px;
 }
-ul.chat li {
+.chat div {
   position: relative;
-  list-style: none;
-  margin: 10px 0;
-}
-.chat img {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
+  padding: 5px 35px;
+  border-bottom: 1px #e0e3e9 solid;
+  border-radius: none!important;
 }
 .chat p {
-  background-color: #f7f7f7;
-  padding:  5px 15px;
-  border-radius: 5px;
+  font-size: 0.8rem;
   margin: 0;
+}
+.chat > .avatar {
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+}
+.userinfo {
+  margin: 50px 0 0;
+  padding: 0;
+  position: relative;
 }
 .userinfo img {
   width: 32px;
@@ -172,12 +177,16 @@ ul.chat li {
   line-height: 30px;
   text-align: center;
 }
-.addmessages {
+.avatar img {
+  width: 32px;
+  height: 32px;
+}
+.postcontent {
   width: 100%;
 }
-.messages_content {
+.post_content {
   width: 100%;
-  min-height: 100px;
+  min-height: 200px;
   background-color: #f7f7f7;
   margin: 0;
   padding: 10px;
@@ -188,10 +197,10 @@ ul.chat li {
   position: absolute;
   right: 3px;
   font-size: small;
-  margin-top: -20px;
+  margin-top: -35px;
   color: rgb(255,0,60);
 }
-.addmessage {
+.addcontent {
   display: block;
   width: 120px;
   height: 30px;  
@@ -200,5 +209,39 @@ ul.chat li {
   background-color: #00a388;
   color: #fff;
   border-radius: 3px;
+}
+input {
+    width: 100%;
+    height: 35px;
+    outline: none;
+    border: none;
+    margin: 0 0 15px 0;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: inherit;
+    background-color: #f7f7f7;
+}
+.contentwrap {
+  position: relative;
+}
+a.topictitle {
+  color: #000;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.count {
+  display: inline-block;
+  width: autp;
+  height: 20px;
+  padding: 0 10px;
+  line-height: 20px;
+  border-radius: 25px;
+  position: absolute;
+  right: 5px;
+  top: 3px;
+  color: #fff;
+  text-align: center;
+  font-size: small;
+  background-color: #d7d7d7;
 }
 </style>

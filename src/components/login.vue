@@ -46,7 +46,7 @@ export default {
       if (!user) {
         router.go({ path: '/login' })
       } else {
-        router.go({ path: '/setting' })
+        window.history.back()
       }
     })
   },
