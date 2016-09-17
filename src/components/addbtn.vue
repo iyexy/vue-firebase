@@ -8,10 +8,16 @@ export default {
 </script>
 <style scoped>
 .add {
+    width: 25px;
+    height: 25px;
     position: fixed;
-    bottom: 105px;
-    right: 15px;
+    bottom: 100px;
+    right: 10px;
     border-radius: 50%;
     border: none;
+}
+.add img {
+    width: 25px;
+    height: 25px;
 }
 </style>

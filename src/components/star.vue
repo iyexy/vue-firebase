@@ -2,10 +2,10 @@
 <h3>>&nbsp;收藏夹&nbsp;<</h3>
 <h4 v-if="nothing">暂时没有收藏任何东西!!!</h4>
     <ul v-if="!nothing" class='staritem'>
-      <li v-for='item in stars'>
+      <li v-for="item in stars | orderBy 'topicTime' -1">
         <a class="title" v-bind:href="item.topicUrl">{{item.topicTitle}}</a>
-        <small>{{item.auth}}</small>
-        <small>{{item.topicTime}}</small>
+        <small class="username">{{item.auth}}</small>
+        <small>发布于{{item.topicTime | timeago}}</small>
         <button class="cancel" v-on:click="cancelstar(item.postKey)">取消收藏</button>
       </li>
     </ul>
@@ -62,9 +62,6 @@ export default {
 }
 </script>
 <style scoped>
-h3 {
-  color: rgb(255,0,60);
-}
 .staritem {
   width: 100%;
   height: 100%;
@@ -87,7 +84,7 @@ h3 {
   display: block;
   height: 100%;
   margin: 5px 0 ;
-  color: #000;
+  color: rgba(0,0,0,0.54);
 }
 .staritem img {
   float: left;
@@ -98,6 +95,9 @@ h3 {
 }
 h4 {
   color: #ddd;
+}
+.staritem small.username {
+  color: rgb(255,0,60);
 }
 .cancel {
   position: absolute;

@@ -28,6 +28,9 @@
             <button class="change-btn" v-on:click='changeUseravatar'>确定</button>
         </li>
         <li>
+            <a class="nostyle-btn" href="#/userpost/">我的话题</a>
+        </li>
+        <li>
             <button class="nostyle-btn" v-on:click="signout">退出</button>
         </li>
     </ul>
@@ -131,7 +134,8 @@ export default {
 <style scoped>
 #avatar {
   margin: 0 auto 60px auto;
-  max-width: 300px;
+  background-color: #fff;
+  border: 10px solid #fff;
 }
 .userinfo {
   position: relative;

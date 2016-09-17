@@ -1,28 +1,30 @@
 <template>
 <loading v-if="login"></loading>
 <section id="chat" v-if="!login">
-    <h2>最新内容 :p</h2>
+    <h3>最新内容 :p</h3>
     <div class="chatwrap">
         <div class='chat' v-for="chat in newposts | orderBy 'posttime' -1">
             <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
             <small class="username">&nbsp;{{chat.name}}</small>
-               <div class="contentwrap">
-          <a class="topictitle" v-link="{ name: 'postitem', params: { item: chat.postid}}">{{chat.title}}</a>
-                <small class="posttime">{{chat.posttime}}</small>
+            <div class="contentwrap">
+                <a class="topictitle" v-link="{ name: 'postitem', params: { item: chat.postid}}">{{chat.title}}</a>
+                <small class="posttime">{{chat.posttime | timeago}}</small>
                 <span class="count" v-show="chat.response === 0 ? false : true">{{chat.response}}</span>
             </div>
         </div>
     </div>
 </section>
+<addbtn></addbtn>
 </template>
 <script>
+import addbtn from './addbtn'
 import loading from './loading'
-import {router} from '../router'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
 export default {
   name: 'post',
   components: {
-    loading
+    loading,
+    addbtn
   },
   data () {
     return {
@@ -33,10 +35,11 @@ export default {
       title: '',
       newpost: '',
       message: false,
-      post: '去登录',
+      post: '登录后回复',
       newposts: '',
       count: {},
       avatarurl: {},
+      time: {},
       defaultavatar: 'http://od62mnpbe.bkt.clouddn.com/default.png'
     }
   },
@@ -66,49 +69,6 @@ export default {
       this.newposts = newposts
       this.login = false
     })
-  },
-  methods: {
-    // post
-    postcontent: function () {
-      const ref = databaseRef().child('/newpost/topic/')
-      const today = new Date()
-      let month = today.getMonth() + 1
-      const date = today.getDate()
-      const hour = today.getHours()
-      let minute = today.getMinutes()
-      const checkTime = (i) => {
-        if (i < 10) {
-          i = '0' + i
-        }
-        return i
-      }
-      month = checkTime(month)
-      minute = checkTime(minute)
-      this.posttime = month + '/' + date + ' ' + hour + ':' + minute
-      const newPostKey = ref.push().key
-      const message = {
-        name: this.username,
-        title: this.title,
-        postcontent: this.newpost,
-        posttime: this.posttime,
-        avatarurl: this.avatarurl,
-        uid: this.uid,
-        response: 0,
-        postid: newPostKey
-      }
-      if (this.username !== '' && this.newpost !== '') {
-        databaseRef().child('/newpost/topic/' + newPostKey).set(message)
-        databaseRef().child('/user/post/' + this.uid + '/' + newPostKey).set(true)
-
-        this.title = ''
-        this.newpost = ''
-        this.message = false
-      } else if (this.username === '') {
-        router.go({ path: '/login' })
-      } else {
-        this.message = true
-      }
-    }
   }
 }
 </script>
@@ -127,7 +87,7 @@ div.chatwrap {
   border: 10px solid #fff;
 }
 .username {
-  color: #d7d7d7;
+  color: #00a388;
 }
 .chat > .username {
   margin-left: 30px;
@@ -137,7 +97,7 @@ div.chatwrap {
 .posttime {
   position: absolute;
   right: 2px;
-  top: -18px;
+  top: -20px;
   color: #ddd;
 }
 .chat {
@@ -234,7 +194,7 @@ a.topictitle {
   width: autp;
   height: 20px;
   padding: 0 10px;
-  line-height: 20px;
+  line-height: 21px;
   border-radius: 25px;
   position: absolute;
   right: 5px;
@@ -242,6 +202,6 @@ a.topictitle {
   color: #fff;
   text-align: center;
   font-size: small;
-  background-color: #d7d7d7;
+  background-color: #ffeb3b;
 }
 </style>

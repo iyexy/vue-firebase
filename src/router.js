@@ -7,11 +7,15 @@ import chat from './components/chat'
 import post from './components/post'
 import postitem from './components/postitem'
 import addpost from './components/addpost'
+import userpost from './components/userpost'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
 const router = new VueRouter()
 router.map({
+  '/userpost': {
+    component: userpost
+  },
   '/addpost': {
     component: addpost
   },

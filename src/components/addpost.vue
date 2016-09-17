@@ -28,7 +28,7 @@ export default {
       title: '',
       newpost: '',
       message: false,
-      post: '去登录',
+      post: '登录后创建',
       newposts: '',
       count: {},
       avatarurl: {},
@@ -59,24 +59,13 @@ export default {
     // post
     postcontent: function () {
       const ref = databaseRef().child('/newpost/topic/')
-      const getTime = () => {
-        const today = new Date()
-        const date = today.getDate()
-        const hour = today.getHours()
-        let month = today.getMonth() + 1
-        let minute = today.getMinutes()
-        const checkTime = (i) => {
-          if (i < 10) {
-            i = '0' + i
-          }
-          return i
-        }
-        month = checkTime(month)
-        minute = checkTime(minute)
-        const time = month + '/' + date + ' ' + hour + ':' + minute
-        return time
+      const textareaTo = (str) => {
+        str = str.replace(/\n/g, '<br/>')
+        str = str.replace(/\s+/g, '&nbsp;')
+        return str
       }
-      this.posttime = getTime()
+      this.posttime = new Date().getTime()
+      this.newpost = textareaTo(this.newpost)
       const newPostKey = ref.push().key
       const message = {
         name: this.username,
@@ -90,7 +79,12 @@ export default {
       }
       if (this.username !== '' && this.newpost !== '' && this.title !== '') {
         databaseRef().child('/newpost/topic/' + newPostKey).set(message)
-        databaseRef().child('/user/post/' + this.uid + '/' + newPostKey).set(true)
+        const userpost = {
+          title: this.title,
+          posttime: this.posttime,
+          url: newPostKey
+        }
+        databaseRef().child('/user/post/' + this.uid + '/' + newPostKey).set(userpost)
 
         this.title = ''
         this.newpost = ''
@@ -114,7 +108,7 @@ div.chatwrap {
   background-color: #fff;
   text-align: left;
   overflow-x: hidden;
-  border: 10px solid #fff;
+  border: 5px solid #fff;
 }
 .userinfo {
   margin: 15px 0;

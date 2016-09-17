@@ -1,26 +1,23 @@
 <template>
 <div class="topbar">
-    <div class="logo"><a href="#">Local</a></div>
+    <div class="logo"><a href="#">Const</a></div>
 </div>
 <div id="app">
     <router-view></router-view>
 </div>
 <ul class="navbar">
-    <li><a :href="'#/latest/'"><img src="../src/assets/location.png"><small>latest</small></a></li>
-    <li><a :href="'#/star/'"><img src="../src/assets/star.png"><small>favorite</small></a></li>
-    <li><a :href="'#/setting/'"><img src="../src/assets/settings.png"><small>setting</small></a></li>
+    <li><a :href="'#/latest/'"><img src="../src/assets/location.png"><small>最新</small></a></li>
+    <li><a :href="'#/star/'"><img src="../src/assets/star.png"><small>收藏</small></a></li>
+    <li><a :href="'#/setting/'"><img src="../src/assets/settings.png"><small>设置</small></a></li>
 </ul>
 <chatbtn></chatbtn>
-<addbtn></addbtn>
 </template>
 <script>
-import addbtn from './components/addbtn'
 import chatbtn from './components/chatbtn'
 export default {
   replace: false,
   components: {
-    chatbtn,
-    addbtn
+    chatbtn
   }
 }
 </script>
@@ -62,19 +59,21 @@ html,body {
   -webkit-overflow-scrolling: touch; 
 }
 a {
-  color: #fff;
   text-decoration: none;
   outline: none;
 }
+.topbar a, .navbar a {
+  color: #fff;
+}
 .logo {
   height: 50px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   line-height: 50px;      
   position: absolute;
-  width: 100px;
+  width: 80px;
   font-family: Tahoma,Arial;
   font-weight: bold;
-  padding: 0 0 0 20px;
+  text-align: center;
   background-color: #2c3e50;
 }
 .logo::after {
@@ -110,6 +109,9 @@ a {
   height: 50px;
   text-align: center;
   background-color: #00a388;
+}
+.navbar small {
+  font-size: xx-small;
 }
 ul.navbar li {
 list-style: none;

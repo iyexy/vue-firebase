@@ -1,14 +1,14 @@
 <template>
 <loading v-if="login"></loading>
 <section id="chat" v-if="!login">
-    <h2>Live Chat :p</h2>
+    <h3>Live Chat :p</h3>
     <div class="chatwrap">
         <ul class='chat'>
         <li v-for='chat in chat'>
              <img v-bind:src="chat.avatarurl">
              <small class="username">{{chat.name}}</small>
-             <small class="posttime">{{chat.posttime}}</small>
-             <p>{{chat.message}}</p>
+             <small class="posttime">{{chat.posttime | timeago}}</small>
+             <p>{{{chat.message | noblank}}}</p>
              </li>
         </ul>
         <div class="userinfo">
@@ -78,20 +78,13 @@ export default {
     // sendmessage
     sendmessage: function () {
       const ref = databaseRef().child('/chat/')
-      const today = new Date()
-      let month = today.getMonth() + 1
-      const date = today.getDate()
-      const hour = today.getHours()
-      let minute = today.getMinutes()
-      const checkTime = (i) => {
-        if (i < 10) {
-          i = '0' + i
-        }
-        return i
+      const textareaTo = (str) => {
+        str = str.replace(/\n/g, '<br/>')
+        str = str.replace(/\s+/g, '&nbsp;')
+        return str
       }
-      month = checkTime(month)
-      minute = checkTime(minute)
-      const posttime = month + '/' + date + ' ' + hour + ':' + minute
+      this.newmessage = textareaTo(this.newmessage)
+      const posttime = new Date().getTime()
       const message = {
         name: this.username,
         message: this.newmessage,
@@ -124,44 +117,44 @@ div.chatwrap {
   background-color: #fff;
   text-align: left;
   overflow-x: hidden;
-  border: 15px solid #fff;
+  border: 5px solid #fff;
 }
 .username {
-  color: rgb(255,0,60);
+  color: #00a388;
+  margin-left: 10px;
 }
 .posttime {
   color: #ddd;
-  display: block;
-  text-align: center;
   position: absolute;
-  left: 40%;
-  top: 5px;
+  left: 45%;
 }
 ul.chat {
-  margin: 0 0 50px;
-  padding: 0;
+  margin: 0 0 50px 0;
+  padding: 0 0 5px 0;
 }
 ul.chat li {
   position: relative;
   list-style: none;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 .chat img {
   width: 32px;
   height: 32px;
   margin: 0;
   padding: 0;
+  float: left;
 }
 .chat p {
-  background-color: #f7f7f7;
   padding:  5px 15px;
+  margin: 5px 0 5px 25px;
   border-radius: 5px;
-  margin: 0;
+  color: rgba(0,0,0,0.74);
+  word-wrap: break-word;
 }
 .userinfo img {
-  width: 32px;
-  height: 32px;
-}
+  width: 32px;;
+
+  height: 32px}
 .avatar {
   width: 32px;
   height: 32px;

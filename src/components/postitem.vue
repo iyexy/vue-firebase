@@ -6,32 +6,27 @@
         <span class="avatar"><img v-bind:src="newpost.avatarurl"></span>
             <a class="topictitle" v-link="{ name: 'postitem', params: { item: newpost.postid}}">{{newpost.title}}</a>
             <small class="username">&nbsp;{{newpost.name}}</small>
-            <small class="posttime">{{newpost.posttime}}</small>
-            <div class="centerconter">
-                <p>{{newpost.postcontent}}</p>
-            </div>
-        
+            <small class="posttime">{{newpost.posttime | timeago}}</small>
+            <div class="center">{{{content}}}</div>
         </div>
     </div>
-    <div class="likebtn">
-        <ul>
-            <li class="share">
-                <button class="btn">分享</button>
-            </li>
+        <ul class="likebtn">
             <li>
                 <button class="btn" v-bind:style="{color: starcolor}" v-bind:disabled="starbtn" v-on:click="star">
                     {{starbtntext}}
                 </button>
             </li>
+            <li class="share">
+                <button class="btn">分享</button>
+            </li>
         </ul>
-    </div>
     <div class="chatwrap">
         <div class='chat' v-for='chat in chat'>
             <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
             <small class="username">&nbsp;{{chat.name}}</small>
             <div>
                 <p>{{chat.message}}</p>
-                <small class="posttime">{{chat.posttime}}</small>
+                <small class="posttime">{{chat.posttime | timeago}}</small>
             </div>
         </div>
         <div class="userinfo">
@@ -48,6 +43,7 @@
 </div>
 </template>
 <script>
+import marked from 'marked'
 import {router} from '../router'
 import loading from './loading'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
@@ -67,17 +63,28 @@ export default {
       message: false,
       avatarurl: {},
       postKey: '',
-      send: '去登录',
+      send: '登录后回复',
       chat: '',
       starcolor: '',
       starbtntext: '收藏',
       starbtn: false,
       login: true,
       count: '',
+      light: {},
       defaultavatar: 'http://od62mnpbe.bkt.clouddn.com/default.png'
     }
   },
   created: function () {
+    marked.setOptions({
+      renderer: new marked.Renderer(),
+      gfm: true,
+      tables: true,
+      breaks: false,
+      pedantic: false,
+      sanitize: false,
+      smartLists: true,
+      smartypants: false
+    })
     onAuthStateChanged(user => {
       if (user) {
         // user name
@@ -95,7 +102,7 @@ export default {
         databaseRef('/user/alreadystar/' + this.uid + '/' + this.postKey).on('value', snapshot => {
           if (snapshot.val() !== null) {
             this.starbtntext = '已收藏'
-            this.starcolor = 'gold'
+            this.starcolor = '#ffeb3b'
             this.starbtn = true
           } else {
             this.starbtntext = '收藏'
@@ -123,6 +130,18 @@ export default {
       this.count = snapshot.val()
     })
   },
+  computed: {
+    content: function () {
+      const toTextarea = (str) => {
+        str = str.replace('<br>', '\n')
+        str = str.replace('&nbsp;', ' ')
+        return str
+      }
+      let content = toTextarea(this.newpost.postcontent)
+      content = marked(content)
+      return content
+    }
+  },
   methods: {
     star: function () {
       if (this.uid === '') {
@@ -145,20 +164,7 @@ export default {
     // addcomment
     addcomment: function () {
       const ref = databaseRef().child('/newpost/comments/' + this.postKey)
-      const today = new Date()
-      let month = today.getMonth() + 1
-      const date = today.getDate()
-      const hour = today.getHours()
-      let minute = today.getMinutes()
-      const checkTime = (i) => {
-        if (i < 10) {
-          i = '0' + i
-        }
-        return i
-      }
-      month = checkTime(month)
-      minute = checkTime(minute)
-      const posttime = month + '/' + date + ' ' + hour + ':' + minute
+      const posttime = new Date().getTime()
       const message = {
         name: this.username,
         message: this.newmessage,
@@ -216,7 +222,7 @@ div.postwrap {
   border: 5px solid #fff;
 }
 .username {
-  color: rgb(255,0,60);
+  color: #00a388;
   display: inline-block;
   margin-left: -5px;
 }
@@ -235,7 +241,7 @@ div.postwrap {
 .newpost div.contentwrap {
   position: relative;
   padding: 15px;
-  border-bottom: 1px #e0e3e9 solid;
+  /*border-bottom: 1px #e0e3e9 solid;*/
   border-radius: none!important;
 }
 .newpost p {
@@ -243,16 +249,13 @@ div.postwrap {
 }
 .contentwrap > .avatar {
   float: right;
-  margin: 0 15px;
+  margin: 0 0 10px 10px;
 }
 a.topictitle {
   margin: 5px 0;
   display: block;
   color: #000;
   font-weight: bold;
-}
-.centerconter {
-  padding: 15px 0;
 }
 .chat {
   margin-bottom: 15px;
@@ -276,7 +279,7 @@ a.topictitle {
 }
 .chat .posttime {
   position: absolute;
-  right: 2px;
+  margin-left: 35px;
   top: -15px;
   color: #ddd;
 }
@@ -337,29 +340,30 @@ a.topictitle {
   color: #fff;
   border-radius: 3px;
 }
-.likebtn {
-  position: relative;
-  right: 0px;
-  width: auto;
-  height: 30px;
-  line-height: 30px;
+ul.likebtn {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  right: 10px;
 }
-.likebtn ul li {
-  float: right;
-  width: 65px;
-  text-align: center;
-  margin: 0 0 0 5px;
-  border-radius: 5px;
-  background-color: #f7f7f7;
+ul.likebtn li {
+  margin: 0 5px;
+  padding: 0;
+  background-color: transparent;
   display: inline-block;
 }
 .btn {
   width: inherit;
-  height: 30px;
-  display: inline-block;
+  height: inherit;
   color: #00a388;
   border: none;
+  margin: 0;
+  padding: 0;
   font-size: small;
   background-color: transparent;
+}
+div.center img {
+  width: 100px!important;
+  height: 100px!important; 
 }
 </style>

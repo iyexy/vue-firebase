@@ -8,13 +8,17 @@ export default {
 </script>
 <style scoped>
 .chat {
+    width: 25px;
+    height: 25px;
     position: fixed;
-    bottom: 65px;
-    right: 15px;
+    bottom: 60px;
+    right: 10px;
     border-radius: 50%;
     border: none;
 }
 .chat img {
+  width: 25px;
+  height: 25px;
   transform: rotateY(180deg);
 }
 </style>
