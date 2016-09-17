@@ -173,7 +173,4 @@ input {
     font-size: inherit;
     background-color: #f7f7f7;
 }
-h3 {
-  color: rgb(255,0,60);
-}
 </style>

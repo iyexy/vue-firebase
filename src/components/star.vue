@@ -67,15 +67,15 @@ export default {
   height: 100%;
   overflow: auto;
   margin: 0;
-  padding: 5px;
+  padding: 10px;
+  background-color: #fff;
 }
 .staritem li {
   list-style: none;
   text-align: left;
   position: relative;
   width: auto;
-  padding: 10px 0;
-  border-bottom: solid 1px #ddd;
+  margin: 15px 0;
 }
 .staritem small {
   color: #d7d7d7;
@@ -93,15 +93,13 @@ export default {
   margin: 0 10px 0 0;
   background-color: #f7f7f7;
 }
-h4 {
-  color: #ddd;
-}
 .staritem small.username {
-  color: rgb(255,0,60);
+  color: #00a388;
 }
 .cancel {
   position: absolute;
   right: 0;
+  top: 10px;
   border: none;
   color: #00a388;
   background-color: transparent;

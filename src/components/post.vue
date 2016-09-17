@@ -2,6 +2,7 @@
 <loading v-if="login"></loading>
 <section id="chat" v-if="!login">
     <h3>最新内容 :p</h3>
+    <a href="#" style="position:absolute;right:0;top:0px;"><small>创建话题</small></a>
     <div class="chatwrap">
         <div class='chat' v-for="chat in newposts | orderBy 'posttime' -1">
             <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
@@ -14,17 +15,14 @@
         </div>
     </div>
 </section>
-<addbtn></addbtn>
 </template>
 <script>
-import addbtn from './addbtn'
 import loading from './loading'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
 export default {
   name: 'post',
   components: {
-    loading,
-    addbtn
+    loading
   },
   data () {
     return {
@@ -202,6 +200,6 @@ a.topictitle {
   color: #fff;
   text-align: center;
   font-size: small;
-  background-color: #ffeb3b;
+  background-color: #2c3e50;
 }
 </style>

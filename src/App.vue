@@ -1,23 +1,26 @@
 <template>
 <div class="topbar">
     <div class="logo"><a href="#">Const</a></div>
-</div>
-<div id="app">
-    <router-view></router-view>
-</div>
-<ul class="navbar">
+    <ul class="navbar">
     <li><a :href="'#/latest/'"><img src="../src/assets/location.png"><small>最新</small></a></li>
     <li><a :href="'#/star/'"><img src="../src/assets/star.png"><small>收藏</small></a></li>
     <li><a :href="'#/setting/'"><img src="../src/assets/settings.png"><small>设置</small></a></li>
 </ul>
+</div>
+<div id="app">
+    <router-view></router-view>
+</div>
+<addbtn></addbtn>
 <chatbtn></chatbtn>
 </template>
 <script>
+import addbtn from './components/addbtn'
 import chatbtn from './components/chatbtn'
 export default {
   replace: false,
   components: {
-    chatbtn
+    chatbtn,
+    addbtn
   }
 }
 </script>
@@ -60,7 +63,6 @@ html,body {
 }
 a {
   text-decoration: none;
-  outline: none;
 }
 .topbar a, .navbar a {
   color: #fff;
@@ -93,32 +95,31 @@ a {
 .topbar {
   width: 100%;
   height: 50px;
-  position: absolute;
+  position: fixed;
   top: 0;
   margin: 0;
   padding: 0;
-  background-color: #00a388; 
+  background-color: #fff; 
   z-index: 999;
 }
 .navbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
   margin: 0;
   padding: 0;
   height: 50px;
+  right: 10px;
+  position: absolute;
   text-align: center;
-  background-color: #00a388;
 }
 .navbar small {
   font-size: xx-small;
+  color: rgba(0,0,0,0.54);
 }
 ul.navbar li {
 list-style: none;
 position: relative;
 display: inline-block;
-width: 30%;
 padding: 5px 0;
+margin: 0 15px;
 text-align: center;
 line-height: 70px;
 }

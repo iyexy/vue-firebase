@@ -25,7 +25,7 @@
             <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
             <small class="username">&nbsp;{{chat.name}}</small>
             <div>
-                <p>{{chat.message}}</p>
+                <p>{{{chat.message | noblank}}}</p>
                 <small class="posttime">{{chat.posttime | timeago}}</small>
             </div>
         </div>
@@ -164,10 +164,16 @@ export default {
     // addcomment
     addcomment: function () {
       const ref = databaseRef().child('/newpost/comments/' + this.postKey)
+      const textareaTo = (str) => {
+        str = str.replace(/\n/g, '<br/>')
+        str = str.replace(/\s+/g, '&nbsp;')
+        return str
+      }
       const posttime = new Date().getTime()
+      const newmessage = textareaTo(this.newmessage)
       const message = {
         name: this.username,
-        message: this.newmessage,
+        message: newmessage,
         posttime: posttime,
         avatarurl: this.avatarurl,
         uid: this.uid
@@ -240,9 +246,7 @@ div.postwrap {
 }
 .newpost div.contentwrap {
   position: relative;
-  padding: 15px;
-  /*border-bottom: 1px #e0e3e9 solid;*/
-  border-radius: none!important;
+  padding: 5px;
 }
 .newpost p {
   margin: 0;
@@ -263,12 +267,10 @@ a.topictitle {
 .chat div {
   position: relative;
   padding: 5px 0;
-  border-bottom: 1px #e0e3e9 solid;
-  border-radius: none!important;
   padding-left: 35px;
 }
 .chatwrap {
-  margin-top: 50px;
+  margin-top: 80px;
 }
 .chat p {
   font-size: 0.8rem;
@@ -361,9 +363,5 @@ ul.likebtn li {
   padding: 0;
   font-size: small;
   background-color: transparent;
-}
-div.center img {
-  width: 100px!important;
-  height: 100px!important; 
 }
 </style>

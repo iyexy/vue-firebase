@@ -11,7 +11,7 @@ export default {
     width: 25px;
     height: 25px;
     position: fixed;
-    bottom: 60px;
+    bottom: 35px;
     right: 10px;
     border-radius: 50%;
     border: none;

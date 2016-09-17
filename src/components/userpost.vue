@@ -44,23 +44,20 @@ export default {
 }
 </script>
 <style scoped>
-h3 {
-  color: rgb(255,0,60);
-}
 .postitem {
   width: 100%;
   height: 100%;
   overflow: auto;
   margin: 0;
-  padding: 5px;
+  padding: 10px;
+  background-color: #fff;
 }
 .postitem li {
   list-style: none;
   text-align: left;
   position: relative;
   width: auto;
-  padding: 10px 0;
-  border-bottom: solid 1px #ddd;
+  margin: 15px 0;
 }
 .postitem small {
   color: #d7d7d7;

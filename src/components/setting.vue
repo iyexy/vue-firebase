@@ -136,6 +136,7 @@ export default {
   margin: 0 auto 60px auto;
   background-color: #fff;
   border: 10px solid #fff;
+  width: 100%;
 }
 .userinfo {
   position: relative;
