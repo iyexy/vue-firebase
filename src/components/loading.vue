@@ -28,7 +28,7 @@ export default {
 }
 .cssload-pgloading .cssload-loadingwrap {position:absolute;top:45%;bottom:45%;left:25%;right:25%;}
 .cssload-pgloading .cssload-bokeh {
-    font-size: 97px;
+    font-size: 40px;
     width: 1em;
     height: 1em;
     position: relative;

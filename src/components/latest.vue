@@ -2,13 +2,12 @@
 <loading v-if="login"></loading>
 <section id="chat" v-if="!login">
     <h3>最新内容 :p</h3>
-    <a href="#" style="position:absolute;right:0;top:0px;"><small>创建话题</small></a>
     <div class="chatwrap">
         <div class='chat' v-for="chat in newposts | orderBy 'posttime' -1">
             <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
             <small class="username">&nbsp;{{chat.name}}</small>
             <div class="contentwrap">
-                <a class="topictitle" v-link="{ name: 'postitem', params: { item: chat.postid}}">{{chat.title}}</a>
+                <a class="topictitle" v-link="{ name: 'latestitem', params: { item: chat.postid}}">{{chat.title}}</a>
                 <small class="posttime">{{chat.posttime | timeago}}</small>
                 <span class="count" v-show="chat.response === 0 ? false : true">{{chat.response}}</span>
             </div>

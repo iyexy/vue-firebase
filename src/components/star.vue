@@ -104,4 +104,7 @@ export default {
   color: #00a388;
   background-color: transparent;
 }
+h4 {
+  color: #ddd;
+}
 </style>

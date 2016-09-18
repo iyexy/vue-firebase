@@ -4,8 +4,8 @@ import setting from './components/setting'
 import login from './components/login'
 import star from './components/star'
 import chat from './components/chat'
-import post from './components/post'
-import postitem from './components/postitem'
+import latest from './components/latest'
+import latestitem from './components/latestitem'
 import addpost from './components/addpost'
 import userpost from './components/userpost'
 
@@ -23,11 +23,11 @@ router.map({
     component: chat
   },
   '/latest': {
-    component: post
+    component: latest
   },
   '/latest/:item': {
-    name: 'postitem',
-    component: postitem
+    name: 'latestitem',
+    component: latestitem
   },
   '/setting': {
     component: setting

@@ -4,7 +4,7 @@
     <div class='newpost'>
         <div class="contentwrap">
         <span class="avatar"><img v-bind:src="newpost.avatarurl"></span>
-            <a class="topictitle" v-link="{ name: 'postitem', params: { item: newpost.postid}}">{{newpost.title}}</a>
+            <a class="topictitle" href="javascript:void(0)">{{newpost.title}}</a>
             <small class="username">&nbsp;{{newpost.name}}</small>
             <small class="posttime">{{newpost.posttime | timeago}}</small>
             <div class="center">{{{content}}}</div>

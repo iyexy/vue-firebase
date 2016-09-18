@@ -91,7 +91,6 @@ a {
     border-right:  25px solid transparent;
     border-bottom: 25px solid transparent;
 }
-
 .topbar {
   width: 100%;
   height: 50px;
