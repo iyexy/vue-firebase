@@ -8,7 +8,7 @@
              <img v-bind:src="chat.avatarurl">
              <small class="username">{{chat.name}}</small>
              <small class="posttime">{{chat.posttime | timeago}}</small>
-             <p>{{{chat.message | noblank}}}</p>
+             <p>{{{chat.message | trim}}}</p>
              </li>
         </ul>
         <div class="userinfo">
@@ -105,93 +105,60 @@ export default {
   }
 }
 </script>
-<style scoped>
-#chat {
-  margin-bottom: 60px;
-}
-div.chatwrap {
-  position: relative;
-  list-style: none;
-  margin: 0 0 60px 0;
-  padding: 0;
-  background-color: #fff;
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
+.chatwrap {
+  @include box-center;
   text-align: left;
   overflow-x: hidden;
-  border: 5px solid #fff;
 }
 .username {
-  color: #00a388;
+  color: $brand-primary;
   margin-left: 10px;
 }
 .posttime {
-  color: #ddd;
+  color: $grey;
   position: absolute;
   left: 45%;
 }
 ul.chat {
-  margin: 0 0 50px 0;
-  padding: 0 0 5px 0;
-}
-ul.chat li {
-  position: relative;
+  margin-bottom: 50px;
+  padding: 0;
+  li {
   list-style: none;
   margin: 5px 0;
+  }
 }
-.chat img {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
+.chat {
+  img {
+  @extend .avatar;
   float: left;
-}
-.chat p {
+ }
+  p {
   padding:  5px 15px;
   margin: 5px 0 5px 25px;
   border-radius: 5px;
-  color: rgba(0,0,0,0.74);
+  color: $link-grey;
   word-wrap: break-word;
+  }
 }
-.userinfo img {
-  width: 32px;;
-
-  height: 32px}
-.avatar {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  color: #fff;
-  line-height: 30px;
-  text-align: center;
+.userinfo img, .avatar {
+  @include avatar
 }
 .addmessages {
   width: 100%;
 }
 .messages_content {
-  width: 100%;
-  min-height: 100px;
-  background-color: #f7f7f7;
-  margin: 0;
-  padding: 10px;
-  font-size: inherit;
-  border: none;
+  @include box-addmessage;
 }
 .nullWarning {
   position: absolute;
   right: 3px;
   font-size: small;
   margin-top: -20px;
-  color: rgb(255,0,60);
+  color: $brand-warning;
 }
 .addmessage {
-  display: block;
-  width: 120px;
-  height: 30px;  
-  border: none;
-  margin: 10px 0;
-  background-color: #00a388;
-  color: #fff;
-  border-radius: 3px;
+  @include btn-submit
 }
 </style>

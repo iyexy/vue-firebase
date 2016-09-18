@@ -14,7 +14,7 @@
 <chatbtn></chatbtn>
 </template>
 <script>
-import addbtn from './components/addbtn'
+import addbtn from './components/addtopicbtn'
 import chatbtn from './components/chatbtn'
 export default {
   replace: false,
@@ -24,15 +24,17 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+@import "./layout/variables.scss";
 html,body {
+  @include box;
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
-  font-size: 16px;
-  font-family: Source Sans Pro, Helvetica, Arial;
-  background-color: #f7f7f7;
+  background-color: $body-bg;
+  font: {
+    size: $font-size-base;
+    family: Source Sans Pro, Helvetica, Arial;
+  }
 }
 * {
   box-sizing: border-box;
@@ -41,6 +43,9 @@ html,body {
 @media (min-width: 768px) { 
   #app {
     max-width: 600px;
+  }
+  .changeNameBox {
+    max-width: 65%;
   }
  }
 @media (max-width: 767px) { 
@@ -64,19 +69,23 @@ html,body {
 a {
   text-decoration: none;
 }
-.topbar a, .navbar a {
-  color: #fff;
+.logo {
+  a {
+    color: #fff;
+  }
 }
 .logo {
-  height: 50px;
-  font-size: 1.3rem;
-  line-height: 50px;      
+  height: $navbar-height;
+  line-height: $navbar-height;      
   position: absolute;
   width: 80px;
-  font-family: Tahoma,Arial;
-  font-weight: bold;
+  font: {
+    size: 1.3rem;
+    family: $logo-font-family;
+    weight: bold;
+  }
   text-align: center;
-  background-color: #2c3e50;
+  background-color: $logo;
 }
 .logo::after {
     content: '';
@@ -84,20 +93,19 @@ a {
     display: inline-block;
     position: absolute;
     right: -50px;
-    margin: 0;
-    padding: 0;
-    border-left: solid 25px #2c3e50;
-    border-top: solid 25px transparent; 
-    border-right:  25px solid transparent;
-    border-bottom: 25px solid transparent;
+    border: {
+      left: solid 25px $logo;
+      top: solid 25px transparent; 
+      right:  25px solid transparent;
+      bottom: 25px solid transparent;
+    }
 }
 .topbar {
+  @include box;
   width: 100%;
-  height: 50px;
+  height: $navbar-height;
   position: fixed;
   top: 0;
-  margin: 0;
-  padding: 0;
   background-color: #fff; 
   z-index: 999;
 }
@@ -111,7 +119,7 @@ a {
 }
 .navbar small {
   font-size: xx-small;
-  color: rgba(0,0,0,0.54);
+  color: $link-grey;
 }
 ul.navbar li {
 list-style: none;

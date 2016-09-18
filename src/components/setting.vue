@@ -28,7 +28,7 @@
             <button class="change-btn" v-on:click='changeUseravatar'>确定</button>
         </li>
         <li>
-            <a class="nostyle-btn" href="#/userpost/">我的话题</a>
+            <a class="nostyle-btn" href="#/usertopic/">我的话题</a>
         </li>
         <li>
             <button class="nostyle-btn" v-on:click="signout">退出</button>
@@ -131,29 +131,28 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
 #avatar {
-  margin: 0 auto 60px auto;
-  background-color: #fff;
-  border: 10px solid #fff;
-  width: 100%;
+  @include box-center;  
 }
 .userinfo {
   position: relative;
   margin: 10px 0;
-  color: rgb(255,0,60);
+  color: $coralred;
+  h4 {
+    color: $coralred;
+  }
 }
 ul.settinglist {
-    padding: 0;
-    margin: 0;
-}
-ul.settinglist li {
-    min-width: 280px;
+    @include box;
+    li {
     list-style: none;
-    color: #00a388;
+    color: $brand-primary;
     margin: 5px auto;
     line-height: 50px;
     position: relative;
+}
 }
 .text-center {
     text-align: center;
@@ -163,7 +162,7 @@ ul.settinglist li {
     height: 35px;
     font-size: inherit;
     border: none;
-    color: #00a388;
+    color: $brand-primary;
     background-color: transparent;
 }
 .close {
@@ -189,8 +188,9 @@ input.change-btn {
     border-bottom: 1px solid #fff;
     border-radius: 0!important;
 }
+
 .changeNameBox {
-  background-color: rgb(255,0,60);
+  background-color: $coralred;
   border-radius: 5px;
   padding-top: 3px;
 }
@@ -198,12 +198,13 @@ input.change-btn {
     content:"";
     display: inline-block;
     position: absolute;
-    margin-top: -27px;
-    margin-left: 15px;
-    border-left: solid 15px transparent;
-    border-top: solid 15px transparent; 
-    border-right:  15px solid transparent;
-    border-bottom: 12px solid rgb(255,0,60);
+    margin: -27px 0 0 15px;
+    border {
+      left: solid 15px transparent;
+      top: solid 15px transparent; 
+      right: solid 15px transparent;
+      bottom: solid 15px $coralred;
+    }
   }
 .warning {
   color: #fff;
@@ -217,24 +218,22 @@ input.change-btn {
 .avatar-option {
   position: relative;
   margin: 50px 10px;
-}
-.avatar-option img {
-  width: 42px;
-  height: 42px;
-}
-.avatar-option input {
+  input {
   position: absolute;
   left: 10px;
   margin-top: 55px;
   border: none;
-  background-color: #d7d7d7;
+  background-color: $body-bg;
+}
+  img {
+  width: 42px;
+  height: 42px;
+}
 }
 .in-transition {
-  height: 100%;
-  transition: all .3s ease;
+  transition: opacity .3s ease;
 }
 .in-enter, .in-leave {
-  height: 0;
   opacity: 0;
 }
 </style>

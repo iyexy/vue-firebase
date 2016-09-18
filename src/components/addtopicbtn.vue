@@ -1,5 +1,5 @@
 <template>
-<a class="add" href="#/addpost"><img src="../assets/add.png"></a>
+<a class="add" href="#/createtopic"><img src="../assets/add.png"></a>
 </template>
 <script>
 export default {

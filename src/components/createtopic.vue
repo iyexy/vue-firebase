@@ -1,6 +1,6 @@
 <template>
 <h3>>&nbsp;创建话题&nbsp;<</h3>
-<div class="chatwrap">
+<div class="topicwrap">
     <div class="userinfo">
         <span v-show="useravatar">
         <img v-bind:src="avatarurl"></span>
@@ -99,39 +99,19 @@ export default {
   }
 }
 </script>
-<style scoped>
-div.chatwrap {
-  position: relative;
-  list-style: none;
-  margin: 0 0 60px 0;
-  padding: 0;
-  background-color: #fff;
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
+.topicwrap {
+  @include box-center;
   text-align: left;
   overflow-x: hidden;
-  border: 5px solid #fff;
-}
-.userinfo {
-  margin: 15px 0;
-  padding: 0;
-  position: relative;
-}
-.userinfo img {
+  .username {
+    color: $brand-primary;
+  }
+  .userinfo img {
   width: 32px;
   height: 32px;
 }
-.avatar {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  color: #fff;
-  line-height: 30px;
-  text-align: center;
-}
-.avatar img {
-  width: 32px;
-  height: 32px;
 }
 .postcontent {
   width: 100%;
@@ -139,28 +119,21 @@ div.chatwrap {
 .post_content {
   width: 100%;
   min-height: 200px;
-  background-color: #f7f7f7;
   margin: 0;
   padding: 10px;
   font-size: inherit;
   border: none;
+  background-color: $body-bg;
 }
 .nullWarning {
+  right: 5px;
   position: absolute;
-  right: 3px;
   font-size: small;
   margin-top: -35px;
-  color: rgb(255,0,60);
+  color: $brand-warning;
 }
 .addcontent {
-  display: block;
-  width: 120px;
-  height: 30px;  
-  border: none;
-  margin: 10px 0;
-  background-color: #00a388;
-  color: #fff;
-  border-radius: 3px;
+  @include btn-submit;
 }
 input {
     width: 100%;
@@ -171,6 +144,6 @@ input {
     border-radius: 5px;
     padding-left: 10px;
     font-size: inherit;
-    background-color: #f7f7f7;
+    background-color: $body-bg;
 }
 </style>

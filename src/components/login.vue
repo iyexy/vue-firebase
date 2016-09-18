@@ -117,56 +117,45 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
 #login {
   margin: 0 auto 60px auto;
   width: 100%;
   height: auto;
+  h4:first-child {
+  color: $coralred;
 }
-#login h4:first-child {
-  color: rgb(255,0,60);
 }
 .idp-button {
     width: 100%;
     height: 35px;
     min-width: 280px;
-    background-color: #00a388;
+    background-color: $brand-primary;
     border: none;
     color: #fff;
     border-radius: 5px;
     font-size: inherit;
 }
 .pinkbtn {
-  background-color: rgb(255,0,60)!important;
+  background-color: $coralred!important;
 }
 ul.loginitem {
-    padding: 0;
-    margin: 0 auto;
-}
-ul.loginitem li {
+    @include box;
+    li {
     width: 100%;
     height: auto;
     list-style: none;
-    color: #fff;
-    margin: 22px 0;
     line-height: 60px;
+    label {
+    height: auto;
+    text-align: left;
+    float: left;
+    margin: -20px auto;
+    padding: 0;
+    color: $brand-primary;
 }
-.purebtn {
-  float: right;
-  background-color: transparent;
-  border: none;
-  outline: 0 none!important;
-}
-small {
-  color: #00a388;
-  margin: 0;
-  padding: 0;
-  line-height: 10px;
-}
-button.purebtn:after {
-  clear: both;
-}
-ul.loginitem li input {
+    input {
     width: 100%;
     height: 35px;
     outline: none;
@@ -175,31 +164,34 @@ ul.loginitem li input {
     padding-left: 15px;
     font-size: inherit;
 }
-ul.loginitem label {
-    height: auto;
-    text-align: left;
-    float: left;
-    margin: -20px auto;
-    padding: 0;
-    color: #00a388;
 }
-ul.loginitem li {
-  clear: both;
+}
+.purebtn {
+  float: right;
+  background-color: transparent;
+  border: none;
+  outline: 0 none!important;
+}
+small {
+  color: $brand-primary;
+  line-height: 10px;
 }
 .warning {
-  color: rgb(255,0,60)!important;
+  color: $brand-warning!important;
   font-size: 0.8rem;
 }
 .googleico {
   width: 25px;
   height: 25px;
-  text-transform: uppercase;
-  background-color: rgb(255,0,60);
-  border-radius: 50%;
-  line-height: 25px;
   margin-right: 10px;
+  line-height: 25px;
+  text-transform: uppercase;
+  background-color: $coralred;
+  border-radius: 50%;
   display: inline-block;
-  font-weight: bold;
-  font-family: Arial;
+  font: {
+    weight: bold;
+    family: Arial;
+  }
 }
 </style>

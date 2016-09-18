@@ -2,14 +2,14 @@
 <loading v-if="login"></loading>
 <section id="chat" v-if="!login">
     <h3>最新内容 :p</h3>
-    <div class="chatwrap">
-        <div class='chat' v-for="chat in newposts | orderBy 'posttime' -1">
-            <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
-            <small class="username">&nbsp;{{chat.name}}</small>
+    <div class="latestwrap">
+        <div class='topic' v-for="item in newposts | orderBy 'posttime' -1">
+            <span class="avatar"><img v-bind:src="item.avatarurl"></span>
+            <small class="username">&nbsp;{{item.name}}</small>
             <div class="contentwrap">
-                <a class="topictitle" v-link="{ name: 'latestitem', params: { item: chat.postid}}">{{chat.title}}</a>
-                <small class="posttime">{{chat.posttime | timeago}}</small>
-                <span class="count" v-show="chat.response === 0 ? false : true">{{chat.response}}</span>
+                <a class="topictitle" v-link="{ name: 'latestitem', params: { item: item.postid}}">{{item.title}}</a>
+                <small class="posttime">{{item.posttime | timeago}}</small>
+                <span class="count" v-show="item.response === 0 ? false : true">{{item.response}}</span>
             </div>
         </div>
     </div>
@@ -59,7 +59,7 @@ export default {
         this.useravatar = false
       }
     })
-    // chat content
+    // topic content
     const ref = databaseRef().child('/newpost/topic/')
     ref.on('value', snapshot => {
       const newposts = snapshot.val()
@@ -69,117 +69,46 @@ export default {
   }
 }
 </script>
-<style scoped>
-#chat {
-  margin-bottom: 120px;
-}
-div.chatwrap {
-  position: relative;
-  list-style: none;
-  margin: 0 0 60px 0;
-  padding: 0;
-  background-color: #fff;
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
+.latestwrap {
+  @include box-center;
   text-align: left;
   overflow-x: hidden;
-  border: 10px solid #fff;
 }
-.username {
-  color: #00a388;
-}
-.chat > .username {
-  margin-left: 30px;
-  display: inline-block;
-  margin-top: 5px;
+.contentwrap {
+  position: relative;
+  padding: 5px 35px;
+  border: {
+    bottom: 1px #e0e3e9 solid;
+    radius: none!important;
+  }
 }
 .posttime {
   position: absolute;
   right: 2px;
   top: -20px;
-  color: #ddd;
+  color: $grey;
 }
-.chat {
+.topic {
   margin-bottom: 15px;
-}
-.chat div {
-  position: relative;
-  padding: 5px 35px;
-  border-bottom: 1px #e0e3e9 solid;
-  border-radius: none!important;
-}
-.chat p {
+  p {
   font-size: 0.8rem;
   margin: 0;
 }
-.chat > .avatar {
-  margin-right: 10px;
-  position: absolute;
-  left: 0;
+.username {
+  margin-left: 30px;
+  display: inline-block;
+  margin-top: 5px;
+  color: $brand-primary;
 }
-.userinfo {
-  margin: 50px 0 0;
-  padding: 0;
-  position: relative;
-}
-.userinfo img {
-  width: 32px;
-  height: 32px;
 }
 .avatar {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  color: #fff;
-  line-height: 30px;
-  text-align: center;
-}
-.avatar img {
-  width: 32px;
-  height: 32px;
-}
-.postcontent {
-  width: 100%;
-}
-.post_content {
-  width: 100%;
-  min-height: 200px;
-  background-color: #f7f7f7;
-  margin: 0;
-  padding: 10px;
-  font-size: inherit;
-  border: none;
-}
-.nullWarning {
   position: absolute;
-  right: 3px;
-  font-size: small;
-  margin-top: -35px;
-  color: rgb(255,0,60);
+  left: 10px;
+  img {
+  @include avatar;
 }
-.addcontent {
-  display: block;
-  width: 120px;
-  height: 30px;  
-  border: none;
-  margin: 10px 0;
-  background-color: #00a388;
-  color: #fff;
-  border-radius: 3px;
-}
-input {
-    width: 100%;
-    height: 35px;
-    outline: none;
-    border: none;
-    margin: 0 0 15px 0;
-    border-radius: 5px;
-    padding-left: 10px;
-    font-size: inherit;
-    background-color: #f7f7f7;
-}
-.contentwrap {
-  position: relative;
 }
 a.topictitle {
   color: #000;
@@ -188,7 +117,7 @@ a.topictitle {
 }
 .count {
   display: inline-block;
-  width: autp;
+  width: auto;
   height: 20px;
   padding: 0 10px;
   line-height: 21px;
@@ -199,6 +128,6 @@ a.topictitle {
   color: #fff;
   text-align: center;
   font-size: small;
-  background-color: #2c3e50;
+  background-color: $logo;
 }
 </style>

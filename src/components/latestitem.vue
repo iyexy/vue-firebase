@@ -20,13 +20,13 @@
                 <button class="btn">分享</button>
             </li>
         </ul>
-    <div class="chatwrap">
-        <div class='chat' v-for='chat in chat'>
-            <span class="avatar"><img v-bind:src="chat.avatarurl"></span>
-            <small class="username">&nbsp;{{chat.name}}</small>
+    <div class="commentswrap">
+        <div class='comments' v-for='item in comments'>
+            <span class="avatar"><img v-bind:src="item.avatarurl"></span>
+            <small class="username">&nbsp;{{item.name}}</small>
             <div>
-                <p>{{{chat.message | noblank}}}</p>
-                <small class="posttime">{{chat.posttime | timeago}}</small>
+                <p>{{item.message | trim}}</p>
+                <small class="posttime">{{item.posttime | timeago}}</small>
             </div>
         </div>
         <div class="userinfo">
@@ -44,8 +44,8 @@
 </template>
 <script>
 import marked from 'marked'
-import {router} from '../router'
 import loading from './loading'
+import {router} from '../router'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
 export default {
   name: 'postitem',
@@ -64,7 +64,7 @@ export default {
       avatarurl: {},
       postKey: '',
       send: '登录后回复',
-      chat: '',
+      comments: {},
       starcolor: '',
       starbtntext: '收藏',
       starbtn: false,
@@ -122,8 +122,8 @@ export default {
     })
     const ref = databaseRef().child('/newpost/comments/' + this.postKey)
     ref.on('value', snapshot => {
-      const chat = snapshot.val()
-      this.chat = chat
+      const comments = snapshot.val()
+      this.comments = comments
       this.login = false
     })
     databaseRef('/newpost/topic/' + this.postKey + '/response/').on('value', snapshot => {
@@ -193,67 +193,55 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
+.postwrap {
+  @include box-center;
+  text-align: left;
+}
 .userinfo {
   margin: 50px 0 0;
   padding: 0;
   position: relative;
+  img {
+  @include avatar;
 }
-.userinfo img {
-  width: 32px;
-  height: 32px;
 }
 .avatar {
   width: 32px;
   height: 32px;
-  margin: 0;
-  padding: 0;
   display: inline-block;
-  color: #fff;
-  line-height: 30px;
-  text-align: center;
+  img {
+  @include avatar;
 }
-.avatar img {
-  width: 32px;
-  height: 32px;
-}
-div.postwrap {
-  position: relative;
-  list-style: none;
-  margin: 0 0 60px 0;
-  padding: 0;
-  background-color: #fff;
-  text-align: left;
-  overflow-x: hidden;
-  border: 5px solid #fff;
 }
 .username {
-  color: #00a388;
+  color: $brand-primary;
   display: inline-block;
   margin-left: -5px;
 }
-.newpost > .username {
+.newpost {
+  margin-bottom: 15px;
+  > .username {
   margin-left: 30px;
-  display: inline-block;
   margin-top: 5px;
+  display: inline-block;
+ }
+ p {
+  margin: 0;
+}
 }
 .posttime {
   margin-left: 5px;
-  color: #ddd;
+  color: $grey;
 }
-.newpost {
-  margin-bottom: 15px;
-}
-.newpost div.contentwrap {
+.contentwrap {
   position: relative;
   padding: 5px;
-}
-.newpost p {
-  margin: 0;
-}
-.contentwrap > .avatar {
+  .avatar {
   float: right;
   margin: 0 0 10px 10px;
+}
 }
 a.topictitle {
   margin: 5px 0;
@@ -261,106 +249,70 @@ a.topictitle {
   color: #000;
   font-weight: bold;
 }
-.chat {
-  margin-bottom: 15px;
+.commentswrap {
+  margin-top: 80px;
 }
-.chat div {
+.comments {
+  margin-bottom: 15px;
+  .username {
+  margin-left: 30px;
+}
+  .avatar {
+  position: absolute;
+  left: 10px;
+}
+  .posttime {
+  position: absolute;
+  margin-left: 35px;
+  top: -15px;
+  color: $grey;
+}
+div {
   position: relative;
   padding: 5px 0;
   padding-left: 35px;
 }
-.chatwrap {
-  margin-top: 80px;
-}
-.chat p {
+  p {
   font-size: 0.8rem;
   margin: 0;
 }
-.chat .username {
-  margin-left: 30px;
 }
-.chat .posttime {
-  position: absolute;
-  margin-left: 35px;
-  top: -15px;
-  color: #ddd;
-}
-.chat > .avatar {
-  margin-right: 10px;
-  position: absolute;
-  left: 0;
-}
-.userinfo {
-  margin: 0;
-  padding: 0;
-  position: relative;
-}
-.userinfo img {
-  width: 32px;
-  height: 32px;
-}
-.avatar {
-  width: 32px;
-  height: 32px;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  color: #fff;
-  line-height: 30px;
-  text-align: center;
-}
-.avatar img {
-  width: 32px;
-  height: 32px;
+.userinfo img, .avatar img {
+  @include avatar;
 }
 .addmessages {
   width: 100%;
 }
 .messages_content {
-  width: 100%;
-  min-height: 100px;
-  background-color: #f7f7f7;
-  margin: 0;
-  padding: 10px;
-  font-size: inherit;
-  border: none;
+  @include box-addmessage;
 }
 .nullWarning {
   position: absolute;
-  right: 3px;
+  right: 10px;
   font-size: small;
   margin-top: -20px;
-  color: rgb(255,0,60);
+  color: $brand-warning;
 }
 .addmessage {
-  display: block;
-  width: 120px;
-  height: 30px;  
-  border: none;
-  margin: 10px 0;
-  background-color: #00a388;
-  color: #fff;
-  border-radius: 3px;
+  @include btn-submit;
 }
 ul.likebtn {
+  @include box;
   position: absolute;
-  margin: 0;
-  padding: 0;
   right: 10px;
-}
-ul.likebtn li {
+  li {
   margin: 0 5px;
   padding: 0;
   background-color: transparent;
   display: inline-block;
 }
+}
 .btn {
+  @include box;
   width: inherit;
   height: inherit;
-  color: #00a388;
+  color: $brand-primary;
   border: none;
-  margin: 0;
-  padding: 0;
   font-size: small;
   background-color: transparent;
 }

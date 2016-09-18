@@ -14,7 +14,7 @@
 import loading from './loading'
 import {onAuthStateChanged, databaseRef} from '../db/fbase'
 export default {
-  name: 'userpost',
+  name: 'usertopic',
   components: {
     loading
   },
@@ -43,35 +43,30 @@ export default {
   }
 }
 </script>
-<style scoped>
-.postitem {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  margin: 0;
-  padding: 10px;
-  background-color: #fff;
-}
-.postitem li {
+<style lang="scss">
+@import "../layout/variables.scss";
+ul.postitem {
+  @include box-center;
+  li {
   list-style: none;
   text-align: left;
   position: relative;
-  width: auto;
   margin: 15px 0;
 }
-.postitem small {
-  color: #d7d7d7;
+small {
+  color: $dark-grey;
+}
+small.username {
+  color: $brand-primary;
+}    
 }
 .title {
   display: block;
   height: 100%;
-  margin: 5px 0 ;
+  margin: 5px 0;
   color: #000;
 }
 h4 {
-  color: #ddd;
+  color: $grey;
 }
-.postitem small.username {
-  color: #00a388;
-}    
 </style>

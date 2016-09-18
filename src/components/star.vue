@@ -61,14 +61,10 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../layout/variables.scss";
 .staritem {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  margin: 0;
-  padding: 10px;
-  background-color: #fff;
+  @include box-center;
 }
 .staritem li {
   list-style: none;
@@ -76,35 +72,28 @@ export default {
   position: relative;
   width: auto;
   margin: 15px 0;
+  small {
+  color: $grey;
 }
-.staritem small {
-  color: #d7d7d7;
+  small.username {
+  color: $brand-primary;
+}
 }
 .title {
   display: block;
   height: 100%;
   margin: 5px 0 ;
-  color: rgba(0,0,0,0.54);
-}
-.staritem img {
-  float: left;
-  width: 95px;
-  height: 70px;
-  margin: 0 10px 0 0;
-  background-color: #f7f7f7;
-}
-.staritem small.username {
-  color: #00a388;
+  color: $link-grey;
 }
 .cancel {
   position: absolute;
   right: 0;
   top: 10px;
   border: none;
-  color: #00a388;
+  color: $brand-primary;
   background-color: transparent;
 }
 h4 {
-  color: #ddd;
+  color: $grey;
 }
 </style>

@@ -6,18 +6,18 @@ import star from './components/star'
 import chat from './components/chat'
 import latest from './components/latest'
 import latestitem from './components/latestitem'
-import addpost from './components/addpost'
-import userpost from './components/userpost'
+import createtopic from './components/createtopic'
+import usertopic from './components/usertopic'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
 const router = new VueRouter()
 router.map({
-  '/userpost': {
-    component: userpost
+  '/usertopic': {
+    component: usertopic
   },
-  '/addpost': {
-    component: addpost
+  '/createtopic': {
+    component: createtopic
   },
   '/chat': {
     component: chat

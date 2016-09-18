@@ -11,13 +11,13 @@ Vue.use(VueResource)
 router.start(App, 'body')
 fastclick.attach(document.body)
 
-// sfilters
+// filters
 Vue.filter('timeago', function (time) {
   timeago().register('zh_CN', locale)
   const t = timeago().format(time, 'zh_CN')
   return t
 })
-Vue.filter('noblank', function (str) {
+Vue.filter('trim', function (str) {
   str = str.replace('<br>', '\n')
   str = str.replace('&nbsp;', ' ')
   return str
