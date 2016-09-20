@@ -5,34 +5,26 @@
         <h4>{{username}}</h4>
     </div>
     <ul class="settinglist">
-        <li>
-            <button class="nostyle-btn" v-on:click="changeUserName">修改用户名</button>
-        </li>
+        <li><button class="nostyle-btn" v-on:click="changeUserName">修改用户名</button></li>
         <li class="changeNameBox" v-if='changeNameBox' transition="in">
             <button class="close" v-on:click="closeNameBox"> + </button>
             <small class="warning" v-if='isMessage'>{{warningMessage}}</small>
             <input type="text" name="username" autofocus class="change-btn text-center" placeholder="输入新的用户名" v-model="newName">
             <button class="change-btn" v-on:click='confirm'>确定</button>
         </li>
-        <li>
-            <button class="nostyle-btn" v-on:click="changeAvatar">更换头像</button>
-        </li>
+        <li><button class="nostyle-btn" v-on:click="changeAvatar">更换头像</button></li>
         <li class="changeNameBox" v-if="changeavatarBox" transition="in">
             <button class="close" v-on:click="closeAvatarBox"> + </button>
             <span id="avatarwrap">
-    <span class="avatar-option" v-for='url in avatarurl'>
-    <img v-bind:src="url.url">
-    <input type="radio" :value="url.url" v-model="picked">
-    </span>
+            <span class="avatar-option" v-for='url in avatarurl'>
+            <input type="radio" :id="'avatar' + [$index]" :value="url.url" v-model="picked">
+            <label :for="'avatar' + [$index]" v-bind:style="{ backgroundImage: 'url(' + url.url + ')' }"></label>
+            </span>
             </span>
             <button class="change-btn" v-on:click='changeUseravatar'>确定</button>
         </li>
-        <li>
-            <a class="nostyle-btn" href="#/usertopic/">我的话题</a>
-        </li>
-        <li>
-            <button class="nostyle-btn" v-on:click="signout">退出</button>
-        </li>
+        <li><a class="nostyle-btn" href="#/usertopic/">我的话题</a></li>
+        <li><button class="nostyle-btn" v-on:click="signout">退出</button></li>
     </ul>
 </div>
 </template>
@@ -190,7 +182,7 @@ input.change-btn {
 }
 
 .changeNameBox {
-  background-color: $coralred;
+  background-color: $grey;
   border-radius: 5px;
   padding-top: 3px;
 }
@@ -199,11 +191,11 @@ input.change-btn {
     display: inline-block;
     position: absolute;
     margin: -27px 0 0 15px;
-    border {
+    border: {
       left: solid 15px transparent;
       top: solid 15px transparent; 
       right: solid 15px transparent;
-      bottom: solid 15px $coralred;
+      bottom: solid 15px $grey;
     }
   }
 .warning {
@@ -213,21 +205,28 @@ input.change-btn {
 }
 #avatarwrap {
   display: inline-block;
-  padding-top: 38px;
+  padding-top: 35px;
 }
 .avatar-option {
   position: relative;
   margin: 50px 10px;
   input {
-  position: absolute;
-  left: 10px;
-  margin-top: 55px;
-  border: none;
-  background-color: $body-bg;
+  display:none;
 }
-  img {
+ input[type='radio']:checked+label {
+  border: 1px solid #fff;
+  border-radius: 50%;
+}
+ label {
+  display: inline-block;
+  position: relative;
   width: 42px;
   height: 42px;
+  background: {
+    position: 0 0;
+    size: 100% 100%;
+    repeat: no-repeat; 
+  }
 }
 }
 .in-transition {

@@ -1,5 +1,5 @@
 <template>
-<h3>>&nbsp;收藏夹&nbsp;<</h3>
+<h3>收藏夹</h3>
 <h4 v-if="nothing">暂时没有收藏任何东西!!!</h4>
     <ul v-if="!nothing" class='staritem'>
       <li v-for="item in stars | orderBy 'topicTime' -1">

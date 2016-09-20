@@ -153,7 +153,7 @@ ul.chat {
 }
 .nullWarning {
   position: absolute;
-  right: 3px;
+  right: 10px;
   font-size: small;
   margin-top: -20px;
   color: $brand-warning;

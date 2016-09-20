@@ -56,7 +56,6 @@ export default {
     return {
       newpost: {},
       uid: '',
-      psotid: '',
       useravatar: false,
       username: '',
       newmessage: '',
@@ -70,7 +69,6 @@ export default {
       starbtn: false,
       login: true,
       count: '',
-      light: {},
       defaultavatar: 'http://od62mnpbe.bkt.clouddn.com/default.png'
     }
   },

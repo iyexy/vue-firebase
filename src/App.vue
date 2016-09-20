@@ -70,22 +70,20 @@ a {
   text-decoration: none;
 }
 .logo {
-  a {
-    color: #fff;
-  }
-}
-.logo {
   height: $navbar-height;
   line-height: $navbar-height;      
   position: absolute;
   width: 80px;
+  text-align: center;
+  background-color: $logo;
   font: {
     size: 1.3rem;
     family: $logo-font-family;
     weight: bold;
   }
-  text-align: center;
-  background-color: $logo;
+  a {
+    color: #fff;
+  }
 }
 .logo::after {
     content: '';
@@ -103,39 +101,36 @@ a {
 .topbar {
   @include box;
   width: 100%;
+  top: 0;
   height: $navbar-height;
   position: fixed;
-  top: 0;
   background-color: #fff; 
   z-index: 999;
 }
 .navbar {
-  margin: 0;
-  padding: 0;
+  @include box;
   height: 50px;
-  right: 10px;
+  right: 5px;
   position: absolute;
-  text-align: center;
-}
-.navbar small {
+  small {
   font-size: xx-small;
   color: $link-grey;
 }
-ul.navbar li {
-list-style: none;
-position: relative;
-display: inline-block;
-padding: 5px 0;
-margin: 0 15px;
-text-align: center;
-line-height: 70px;
+  li {
+  list-style: none;
+  position: relative;
+  display: inline-block;
+  padding: 5px 0;
+  margin: 0 15px;
+  line-height: 70px;
+  img {
+    width: 24px;
+    height: 24px;
+    left: 50%;
+    margin-left: -12px;
+    position: absolute;
+  }
 }
-ul.navbar li img {
-  width: 24px;
-  height: 24px;
-  left: 50%;
-  margin-left: -12px;
-  position: absolute;
 }
 .fade-transition {
   transition: opacity .3s ease-in;

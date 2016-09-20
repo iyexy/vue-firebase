@@ -1,5 +1,5 @@
 <template>
-<h3>>&nbsp;我的话题&nbsp;<</h3>
+<h3>我的话题</h3>
 <h4 v-if="!nothing">未创建任何话题!!!</h4>
 <loading v-if="loading"></loading>
 <ul v-if="nothing" class="postitem">

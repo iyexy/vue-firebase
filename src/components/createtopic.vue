@@ -1,5 +1,5 @@
 <template>
-<h3>>&nbsp;创建话题&nbsp;<</h3>
+<h3>创建话题</h3>
 <div class="topicwrap">
     <div class="userinfo">
         <span v-show="useravatar">
@@ -126,7 +126,7 @@ export default {
   background-color: $body-bg;
 }
 .nullWarning {
-  right: 5px;
+  right: 10px;
   position: absolute;
   font-size: small;
   margin-top: -35px;

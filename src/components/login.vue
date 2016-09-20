@@ -131,20 +131,21 @@ export default {
     width: 100%;
     height: 35px;
     min-width: 280px;
-    background-color: $brand-primary;
+    background-color: $logo;
     border: none;
     color: #fff;
     border-radius: 5px;
     font-size: inherit;
 }
 .pinkbtn {
-  background-color: $coralred!important;
+  background-color: $brand-primary!important;
 }
 ul.loginitem {
     @include box;
     li {
     width: 100%;
     height: auto;
+    clear: both;
     list-style: none;
     line-height: 60px;
     label {
@@ -172,6 +173,9 @@ ul.loginitem {
   border: none;
   outline: 0 none!important;
 }
+button.purebtn:after {
+  clear: both;
+}
 small {
   color: $brand-primary;
   line-height: 10px;
@@ -186,7 +190,7 @@ small {
   margin-right: 10px;
   line-height: 25px;
   text-transform: uppercase;
-  background-color: $coralred;
+  background-color: $brand-primary;
   border-radius: 50%;
   display: inline-block;
   font: {
