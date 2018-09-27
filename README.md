@@ -16,7 +16,13 @@ npm run dev
 npm run build
 
 ```
-
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/1.png)
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/2.png)
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/3.png)
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/4.png)
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/5.png)
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/6.png)
+![enter image description here](https://raw.githubusercontent.com/iyexy/Local/dev/src/assets/readme/7.png)
 
 #### License
 
