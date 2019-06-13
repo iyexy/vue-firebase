@@ -1,23 +1,25 @@
 <template>
-<loading v-if="login"></loading>
-<section id="chat" v-if="!login">
-    <h3>最新内容 :p</h3>
-    <div class="latestwrap">
-        <div class='topic' v-for="item in newposts | orderBy 'posttime' -1">
-            <span class="avatar"><img v-bind:src="item.avatarurl"></span>
-            <small class="username">&nbsp;{{item.name}}</small>
-            <div class="contentwrap">
-                <a class="topictitle" v-link="{ name: 'latestitem', params: { item: item.postid}}">{{item.title}}</a>
-                <small class="posttime">{{item.posttime | timeago}}</small>
-                <span class="count" v-show="item.response === 0 ? false : true">{{item.response}}</span>
-            </div>
+  <div>
+    <loading v-if="login"></loading>
+    <section id="chat" v-if="!login">
+      <h3>最新内容 :p</h3>
+      <div class="latestwrap">
+        <div class='topic' v-for="item in newposts">
+        <span class=" avatar"><img v-bind:src="item.avatarurl"></span>
+          <small class="username">&nbsp;{{item.name}}</small>
+          <div class="contentwrap">
+            <a class="topictitle" v-link="{ name: 'latestitem', params: { item: item.postid}}">{{item.title}}</a>
+            <small class="posttime">{{item.posttime | timeago}}</small>
+            <span class="count" v-show="item.response === 0 ? false : true">{{item.response}}</span>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
+  </div>
 </template>
 <script>
 import loading from './loading'
-import {onAuthStateChanged, databaseRef} from '../db/fbase'
+import { onAuthStateChanged, databaseRef } from '../db/fbase'
 export default {
   name: 'post',
   components: {
@@ -66,55 +68,72 @@ export default {
       this.newposts = newposts
       this.login = false
     })
+  },
+  computed: {
+    orderedUsers: function () {
+      // return _.orderBy(this.newposts,'posttime'-1)
+    }
   }
 }
+
 </script>
 <style lang="scss" scoped>
 @import "../layout/variables.scss";
+
 .latestwrap {
   @include box-center;
   text-align: left;
   overflow-x: hidden;
 }
+
 .contentwrap {
   position: relative;
   padding: 5px 35px;
+
   border: {
     bottom: 1px #e0e3e9 solid;
-    radius: none!important;
+    radius: none !important;
   }
 }
+
 .posttime {
   position: absolute;
   right: 2px;
   top: -20px;
   color: $grey;
 }
+
 .topic {
   margin-bottom: 15px;
+
   p {
-  font-size: 0.8rem;
-  margin: 0;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .username {
+    margin-left: 30px;
+    display: inline-block;
+    margin-top: 5px;
+    color: $brand-primary;
+  }
 }
-.username {
-  margin-left: 30px;
-  display: inline-block;
-  margin-top: 5px;
-  color: $brand-primary;
-}
-}
+
 .avatar {
   position: absolute;
   left: 10px;
+
   img {
-  @include avatar;
+    @include avatar;
+  }
 }
-}
+
 a.topictitle {
   color: #000;
   font-size: 1rem;
   font-weight: bold;
 }
+
 .count {
   display: inline-block;
   width: auto;
@@ -130,4 +149,5 @@ a.topictitle {
   font-size: small;
   background-color: $logo;
 }
+
 </style>

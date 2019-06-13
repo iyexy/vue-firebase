@@ -4,7 +4,7 @@
 <loading v-if="loading"></loading>
 <ul v-if="nothing" class="postitem">
     <li v-for="item in userpost | orderBy 'posttime' -1">
-        <a href='#/latest/{{item.url}}' class="title">{{item.title}}</a>
+        <a href='/latest/{{item.url}}' class="title">{{item.title}}</a>
         <small class="username">{{uid}}</small>
         <small>发布于{{item.posttime | timeago}}</small>
     </li>

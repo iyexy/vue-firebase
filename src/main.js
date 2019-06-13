@@ -1,14 +1,22 @@
 import Vue from 'vue'
 import App from './App'
 import VueResource from 'vue-resource'
-import {router} from './router'
+import router from './router'
 import fastclick from 'fastclick'
 import locale from 'timeago.js/locales/zh_CN.js'
 import timeago from 'timeago.js/dist/timeago.min.js'
+Vue.config.productionTip = false
 
 /* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
+
 Vue.use(VueResource)
-router.start(App, 'body')
+
 fastclick.attach(document.body)
 
 // filters

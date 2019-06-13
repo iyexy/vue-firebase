@@ -1,5 +1,5 @@
 <template>
-<a class="chat" href="#/chat"><img src="../assets/livechat.png"></a>
+<router-link class="chat" to="/chat"><img src="../assets/livechat.png"></a>
 </template>
 <script>
 export default {

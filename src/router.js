@@ -11,37 +11,49 @@ import usertopic from './components/usertopic'
 
 /* eslint-disable no-new */
 Vue.use(VueRouter)
-const router = new VueRouter()
-router.map({
-  '/usertopic': {
-    component: usertopic
-  },
-  '/createtopic': {
+
+const routes = [{
+  path: '/usertopic',
+  component: usertopic
+},
+  {
+    path: '/createtopic',
     component: createtopic
   },
-  '/chat': {
+  {
+    path: '/chat',
     component: chat
   },
-  '/latest': {
+  {
+    path: '/latest',
     component: latest
   },
-  '/latest/:item': {
+  {
+    path: '/latest/:item',
     name: 'latestitem',
     component: latestitem
   },
-  '/setting': {
+  {
+    path: '/setting',
     component: setting
   },
-  '/login': {
+  {
+    path: '/login',
     name: 'loginurl',
     component: login
   },
-  '/star': {
+  {
+    path: '/star',
     component: star
+  },
+  {
+    path: '/',
+    component: latest
   }
+]
+const router = new VueRouter({
+  mode: 'history',
+  routes
 })
-router.redirect({
-  '/': '/latest'
-})
-export {router}
 
+export default router

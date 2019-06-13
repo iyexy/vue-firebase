@@ -23,7 +23,7 @@
             </span>
             <button class="change-btn" v-on:click='changeUseravatar'>确定</button>
         </li>
-        <li><a class="nostyle-btn" href="#/usertopic/">我的话题</a></li>
+        <li><a class="nostyle-btn" href="/usertopic/">我的话题</a></li>
         <li><button class="nostyle-btn" v-on:click="signout">退出</button></li>
     </ul>
 </div>
